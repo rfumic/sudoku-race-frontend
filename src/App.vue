@@ -1,6 +1,20 @@
 <template>
-  <router-view />
+  <nav-bar></nav-bar>
+  <div class="view">
+    <router-view />
+  </div>
 </template>
+
+<script>
+import NavBar from '@/components/NavBar.vue';
+
+export default {
+  components: {
+    NavBar,
+  },
+  setup() {},
+};
+</script>
 
 <style lang="scss">
 @use '@/scss/colors.scss' as *;
@@ -18,8 +32,12 @@ body {
   font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
+  background-color: $color-dark;
+}
+.view {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: $color-dark;
 }
 </style>

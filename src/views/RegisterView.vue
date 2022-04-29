@@ -1,42 +1,45 @@
 <template>
-  <header>
-    <img
-      src="../assets/sudoku-race-logo.png"
-      alt="SudokuRace logo"
-      class="logo"
-    />
-  </header>
-
-  <main>
-    <form class="form" @submit.prevent="register">
-      <input
-        class="input"
-        type="text"
-        placeholder="username"
-        v-model="username"
+  <div class="view">
+    <header>
+      <img
+        src="../assets/sudoku-race-logo.png"
+        alt="SudokuRace logo"
+        class="logo"
       />
-      <input class="input" type="text" placeholder="email" v-model="email" />
-      <input
-        class="input"
-        type="password"
-        placeholder="password"
-        v-model="password"
-      />
-      <input
-        class="input"
-        type="password"
-        placeholder="confirm password"
-        v-model="confirmPassword"
-      />
-      <button type="submit" class="register">register</button>
-      <div v-if="error" class="error">
-        {{ error }}
+    </header>
+    <main>
+      <form class="form" @submit.prevent="register">
+        <input
+          class="input"
+          type="text"
+          placeholder="username"
+          v-model="username"
+        />
+        <input class="input" type="text" placeholder="email" v-model="email" />
+        <input
+          class="input"
+          type="password"
+          placeholder="password"
+          v-model="password"
+        />
+        <input
+          class="input"
+          type="password"
+          placeholder="confirm password"
+          v-model="confirmPassword"
+        />
+        <button type="submit" class="register">register</button>
+        <transition name="fade">
+          <div v-if="error" class="error">
+            {{ error }}
+          </div>
+        </transition>
+      </form>
+      <div class="login">
+        have an account? <router-link to="/login">click here!</router-link>
       </div>
-    </form>
-    <div class="login">
-      have an account? <router-link to="/login">click here!</router-link>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -50,13 +53,22 @@ export default {
     let confirmPassword = ref('');
 
     function register() {
-      console.log(
-        'REGISTERING',
-        username.value,
-        password.value,
-        confirmPassword.value,
-        email.value
-      );
+      if (
+        email.value === '' ||
+        password.value === '' ||
+        confirmPassword.value === ''
+      ) {
+        error.value = 'please fill the registration form';
+      } else {
+        error.value = '';
+        console.log(
+          'REGISTERING',
+          username.value,
+          password.value,
+          confirmPassword.value,
+          email.value
+        );
+      }
     }
 
     return {
@@ -74,10 +86,21 @@ export default {
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
 
+.view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
 header {
   display: flex;
   justify-content: center;
   margin-bottom: 3rem;
+}
+main {
+  width: 100%;
 }
 
 .logo {
@@ -155,5 +178,28 @@ header {
       text-decoration: underline;
     }
   }
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: all 0.2s ease;
+}
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-active {
+  transition: all 0.2s ease;
 }
 </style>

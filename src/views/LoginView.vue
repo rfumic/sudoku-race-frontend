@@ -1,30 +1,33 @@
 <template>
-  <header>
-    <img
-      src="../assets/sudoku-race-logo.png"
-      alt="SudokuRace logo"
-      class="logo"
-    />
-  </header>
-
-  <main>
-    <form class="form" @submit.prevent="login">
-      <input class="input" type="text" placeholder="email" v-model="email" />
-      <input
-        class="input"
-        type="password"
-        placeholder="password"
-        v-model="password"
+  <div class="view">
+    <header>
+      <img
+        src="../assets/sudoku-race-logo.png"
+        alt="SudokuRace logo"
+        class="logo"
       />
-      <button type="submit" class="login">login</button>
-      <div v-if="error" class="error">
-        {{ error }}
+    </header>
+    <main>
+      <form class="form" @submit.prevent="login">
+        <input class="input" type="text" placeholder="email" v-model="email" />
+        <input
+          class="input"
+          type="password"
+          placeholder="password"
+          v-model="password"
+        />
+        <button type="submit" class="login">login</button>
+        <transition name="fade">
+          <div v-if="error" class="error">
+            {{ error }}
+          </div>
+        </transition>
+      </form>
+      <div class="register">
+        need an account? <router-link to="/register">click here!</router-link>
       </div>
-    </form>
-    <div class="register">
-      need an account? <router-link to="/register">click here!</router-link>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -56,11 +59,21 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
+.view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
 
 header {
   display: flex;
   justify-content: center;
   margin-bottom: 3rem;
+}
+main {
+  width: 100%;
 }
 
 .logo {
@@ -77,6 +90,7 @@ header {
 .form {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .input,
@@ -138,5 +152,28 @@ header {
       text-decoration: underline;
     }
   }
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: all 0.2s ease;
+}
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-active {
+  transition: all 0.2s ease;
 }
 </style>
