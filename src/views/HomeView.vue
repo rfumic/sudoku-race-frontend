@@ -3,18 +3,18 @@
     <div
       class="container"
       @click="goToRanked()"
-      data-tooltip="play against other players to earn points"
+      data-tooltip="complete puzzles to earn points"
     >
       <img src="../assets/ranked-game.png" alt="ranked game" class="logo" />
-      join a ranked game
+      ranked puzzles
     </div>
     <div
       class="container"
       @click="goToSolo()"
-      data-tooltip="play solo to practice your skills"
+      data-tooltip="play unranked to practice your skills"
     >
       <img src="../assets/solo-game.png" alt="solo game" class="logo" />
-      join a solo game
+      practice puzzles
     </div>
   </div>
 </template>

@@ -28,6 +28,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "match" */ '../views/MatchView.vue'),
   },
+  {
+    path: '/ranked-puzzles',
+    name: 'ranked-puzzles',
+    component: () =>
+      import(
+        /* webpackChunkName: "ranked-puzzles" */ '../views/RankedPuzzles.vue'
+      ),
+  },
 ];
 
 const router = createRouter({

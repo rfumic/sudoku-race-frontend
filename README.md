@@ -1,6 +1,6 @@
 # SudokuRace
 
-Multiplayer sudoku
+Online sudoku
 
 ### Autori i zaduženja
 
