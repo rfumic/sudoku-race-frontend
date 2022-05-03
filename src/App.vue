@@ -7,12 +7,21 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { Users } from '@/services';
 export default {
   components: {
     NavBar,
   },
-  setup() {},
+  setup() {
+    onMounted(() => {
+      //
+    });
+    /*     Users.getAll().then((res) => {
+      console.log(res.data);
+    }); */
+  },
 };
 </script>
 

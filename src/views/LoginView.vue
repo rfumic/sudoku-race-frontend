@@ -32,18 +32,28 @@
 
 <script>
 import { ref } from 'vue';
+import { Auth } from '@/services';
+import { useRouter } from 'vue-router';
+
 export default {
   setup() {
+    const router = useRouter();
     let error = ref('');
     let email = ref('');
     let password = ref('');
 
-    function login() {
+    async function login() {
       if (email.value === '' || password.value === '') {
         error.value = 'please fill the login form';
       } else {
         error.value = '';
-        console.log('LOGGING IN!', email.value, password.value);
+        const success = await Auth.login(email.value, password.value);
+        console.log('rezultat prijave!', success);
+        if (success) {
+          router.push({
+            name: 'home',
+          });
+        }
       }
     }
 
