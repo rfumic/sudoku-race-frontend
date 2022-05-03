@@ -1,10 +1,34 @@
 import store from '@/store';
 import axios from 'axios';
+// import { useRouter } from 'vue-router';
+import $router from '@/router';
+// const router = useRouter();
 
 const Service = axios.create({
   baseURL: 'http://localhost:4000/',
   timeout: 1000,
 });
+/* // DOESN'T WORK YET
+Service.interceptors.request.use((request) => {
+  let token = Auth.getToken();
+  if (!token) {
+    $router.go();
+    return;
+  } else {
+    request.headers['Authorization'] = 'Bearer ' + token;
+  }
+  return request;
+});
+
+Service.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status == 401 || error.response.status == 403) {
+      Auth.logout();
+      $router.go();
+    }
+  }
+); */
 
 const Users = {
   getAll(searchTerm = '') {
@@ -35,6 +59,14 @@ const Auth = {
   },
   getUser() {
     return JSON.parse(localStorage.getItem('user'));
+  },
+  getToken() {
+    const user = this.getUser();
+    if (user && user.token) {
+      return user.token;
+    } else {
+      return false;
+    }
   },
 };
 

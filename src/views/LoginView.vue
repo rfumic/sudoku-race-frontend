@@ -48,7 +48,6 @@ export default {
       } else {
         error.value = '';
         const success = await Auth.login(email.value, password.value);
-        console.log('rezultat prijave!', success);
         if (success) {
           router.push({
             name: 'home',
