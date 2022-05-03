@@ -1,3 +1,4 @@
+import store from '@/store';
 import axios from 'axios';
 
 const Service = axios.create({
@@ -19,10 +20,18 @@ const Auth = {
     });
     const user = response.data;
     localStorage.setItem('user', JSON.stringify(user));
+    store.commit('setAuthenticated', {
+      authenticated: true,
+      email: user.email,
+    });
     return true;
   },
   logout() {
     localStorage.removeItem('user');
+    store.commit('setAuthenticated', {
+      authenticated: false,
+      email: '',
+    });
   },
   getUser() {
     return JSON.parse(localStorage.getItem('user'));

@@ -1,5 +1,5 @@
 <template>
-  <nav-bar></nav-bar>
+  <nav-bar v-if="isLoggedIn" />
   <div class="view">
     <router-view />
   </div>
@@ -7,20 +7,22 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { Users } from '@/services';
+
 export default {
   components: {
     NavBar,
   },
   setup() {
-    onMounted(() => {
-      //
-    });
-    /*     Users.getAll().then((res) => {
-      console.log(res.data);
-    }); */
+    const store = useStore();
+    // VUEX CHECKS JWT FROM LOCALSTORAGE ON PAGE RELOAD
+    store.commit('setState');
+
+    return {
+      isLoggedIn: computed(() => store.state.authenticated),
+    };
   },
 };
 </script>

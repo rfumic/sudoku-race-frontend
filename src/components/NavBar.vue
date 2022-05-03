@@ -8,23 +8,33 @@
     </a>
     <div class="navbar-links" :class="{ active: hamburger }">
       <ul>
-        <li><a href="#">profile</a></li>
-        <li><a href="#">leaderboard</a></li>
-        <li><a href="#">settings</a></li>
-        <li><a href="#">logout</a></li>
+        <li><p>profile</p></li>
+        <li><p>leaderboard</p></li>
+        <li><p>settings</p></li>
+        <li><p @click="logout">logout</p></li>
       </ul>
     </div>
   </nav>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { Auth } from '@/services';
+import { useRouter } from 'vue-router';
+
 export default {
   setup() {
+    const router = useRouter();
     let hamburger = ref(false);
     const openMenu = () => (hamburger.value = !hamburger.value);
 
+    const logout = () => {
+      Auth.logout();
+      router.go();
+    };
+
     return {
       hamburger,
+      logout,
       openMenu,
     };
   },
@@ -61,11 +71,12 @@ export default {
   }
   li {
     list-style: none;
-    a {
+    p {
       text-decoration: none;
       color: $color-white;
       padding: 1rem;
       display: block;
+      cursor: pointer;
     }
     transition: box-shadow 0.2s ease-in-out;
 
@@ -115,7 +126,7 @@ export default {
     li {
       text-align: center;
     }
-    a {
+    p {
       padding: 0.5rem 1rem;
     }
   }

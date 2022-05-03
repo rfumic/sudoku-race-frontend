@@ -52,6 +52,9 @@ router.beforeEach((to, from, next) => {
   if (needsLogin && !user) {
     next('/login');
     return;
+  } else if (!needsLogin && user) {
+    next('/');
+    return;
   }
   next();
 });
