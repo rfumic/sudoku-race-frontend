@@ -47,11 +47,15 @@ export default {
         error.value = 'please fill the login form';
       } else {
         error.value = '';
-        const success = await Auth.login(email.value, password.value);
-        if (success) {
-          router.push({
-            name: 'home',
-          });
+        try {
+          const success = await Auth.login(email.value, password.value);
+          if (success) {
+            router.push({
+              name: 'home',
+            });
+          }
+        } catch (err) {
+          error.value = err.message;
         }
       }
     }

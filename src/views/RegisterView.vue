@@ -44,30 +44,47 @@
 
 <script>
 import { ref } from 'vue';
+import { Auth } from '@/services';
+import { useRouter } from 'vue-router';
+
 export default {
   setup() {
+    const router = useRouter();
+
     let error = ref('');
     let email = ref('');
     let username = ref('');
     let password = ref('');
     let confirmPassword = ref('');
 
-    function register() {
+    async function register() {
       if (
         email.value === '' ||
+        username.value === '' ||
         password.value === '' ||
         confirmPassword.value === ''
       ) {
         error.value = 'please fill the registration form';
+      } else if (password.value !== confirmPassword.value) {
+        error.value = 'passwords do not match';
+      } else if (password.value.length < 6) {
+        error.value = 'passwords need to be at least 6 characters long';
       } else {
         error.value = '';
-        console.log(
-          'REGISTERING',
-          username.value,
-          password.value,
-          confirmPassword.value,
-          email.value
-        );
+        try {
+          const success = await Auth.register(
+            email.value,
+            username.value,
+            password.value
+          );
+          if (success) {
+            router.push({
+              name: 'home',
+            });
+          }
+        } catch (err) {
+          error.value = err.message;
+        }
       }
     }
 

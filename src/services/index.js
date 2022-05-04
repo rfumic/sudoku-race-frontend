@@ -37,17 +37,34 @@ const Users = {
 };
 
 const Auth = {
+  async register(email, username, password) {
+    try {
+      const response = await Service.post('/users', {
+        email,
+        username,
+        password,
+      });
+      await this.login(email, password);
+    } catch (error) {
+      throw new Error(error.response.data.error);
+    }
+    return true;
+  },
   async login(email, password) {
-    const response = await Service.post('/auth', {
-      email: email,
-      password: password,
-    });
-    const user = response.data;
-    localStorage.setItem('user', JSON.stringify(user));
-    store.commit('setAuthenticated', {
-      authenticated: true,
-      email: user.email,
-    });
+    try {
+      const response = await Service.post('/auth', {
+        email,
+        password,
+      });
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+      store.commit('setAuthenticated', {
+        authenticated: true,
+        email: user.email,
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
     return true;
   },
   logout() {
