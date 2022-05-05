@@ -63,7 +63,7 @@ const Auth = {
         email: user.email,
       });
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error.response.data.error);
     }
     return true;
   },
