@@ -18,10 +18,11 @@
 import { ref, onMounted, computed } from 'vue';
 import SudokuCell from '@/components/SudokuCell.vue';
 export default {
+  props: ['board'],
   components: {
     SudokuCell,
   },
-  setup() {
+  setup(props) {
     onMounted(() => {
       let digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       // HANDLING KEYBOARD EVENTS
@@ -72,14 +73,10 @@ export default {
         }
       });
     });
-    //const board = Array(81).fill('');
-    const board = [
-      0, 3, 0, 0, 0, 0, 0, 5, 0, 0, 0, 8, 0, 9, 1, 3, 0, 0, 6, 0, 0, 4, 0, 0, 7,
-      0, 0, 0, 0, 3, 8, 1, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 3,
-      4, 8, 0, 0, 0, 0, 1, 0, 0, 8, 0, 0, 9, 0, 0, 4, 1, 2, 0, 6, 0, 0, 0, 6, 0,
-      0, 0, 0, 0, 4, 0,
-    ].map((e) =>
-      e == 0
+    // const board = Array(81).fill('');
+    const board = props.board.map((e) =>
+      // CHANGE TO NULL
+      e == null
         ? { digit: '', default: false, cellNotes: [] }
         : { digit: e, default: true, cellNotes: false }
     );
@@ -90,12 +87,12 @@ export default {
 
     let currentValue = computed(() => {
       // used for highlighting all cells that contain the same value
-      return playerBoard.value[currentIndex.value].digit;
+      return playerBoard.value[currentIndex.value].digit || 0;
     });
 
     function setCurrent(i) {
       currentIndex.value = i;
-      console.log(currentIndex.value);
+      // console.log(currentIndex.value);
     }
 
     function setCellValue(value, notes = false) {

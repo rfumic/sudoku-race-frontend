@@ -10,17 +10,19 @@
     </div>
     <div
       class="container"
-      @click="goToSolo()"
+      @click="goTo('/practice')"
       data-tooltip="play unranked to practice your skills"
     >
       <img src="../assets/solo-game.png" alt="solo game" class="logo" />
-      practice puzzles
+      solo practice
     </div>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 // @ is an alias to /srcimport HelloWorld from '@/components/HelloWorld.vue';
+
 export default {
   name: 'HomeView',
   components: {},
@@ -30,13 +32,14 @@ export default {
     function goToRanked() {
       console.log('GO TO RANKED GAME');
     }
-    function goToSolo() {
-      console.log('GO TO SOLO GAME');
+
+    function goTo(path) {
+      router.push(path);
     }
 
     return {
       goToRanked,
-      goToSolo,
+      goTo,
     };
   },
 };

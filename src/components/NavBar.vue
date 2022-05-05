@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <div class="brand"><i> sudoku-race </i></div>
+    <div @click="goTo('/')" class="brand"><i> sudoku-race </i></div>
     <a class="hamburger-button" @click="openMenu()">
       <span class="bar"></span>
       <span class="bar"></span>
@@ -27,15 +27,19 @@ export default {
     let hamburger = ref(false);
     const openMenu = () => (hamburger.value = !hamburger.value);
 
-    const logout = () => {
+    function logout() {
       Auth.logout();
       router.go();
-    };
+    }
+    function goTo(path) {
+      router.push(path);
+    }
 
     return {
       hamburger,
       logout,
       openMenu,
+      goTo,
     };
   },
 };
