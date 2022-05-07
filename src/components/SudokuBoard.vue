@@ -15,14 +15,14 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
 import SudokuCell from '@/components/SudokuCell.vue';
 export default {
   props: ['board'],
   components: {
     SudokuCell,
   },
-  setup(props) {
+  setup(props, { emit }) {
     onMounted(() => {
       let digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       // HANDLING KEYBOARD EVENTS
@@ -85,6 +85,10 @@ export default {
     let currentIndex = ref(0);
     let cellNote = ref('');
 
+    watchEffect(() => {
+      console.log('dis one', playerBoard);
+    });
+
     let currentValue = computed(() => {
       // used for highlighting all cells that contain the same value
       return playerBoard.value[currentIndex.value].digit || 0;
@@ -102,6 +106,8 @@ export default {
         default: false,
         cellNotes: notes,
       };
+      const playerBoardArray = playerBoard.value.map((e) => e.digit);
+      emit('playerSolution', playerBoardArray);
     }
     function addCellNote(notesArray, note) {
       // first check if cell can have notes

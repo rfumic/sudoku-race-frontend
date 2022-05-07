@@ -1,11 +1,13 @@
 <template>
   <div class="view">
     <div v-if="board.length">
-      <sudoku-board :board="board" />
+      <sudoku-board :board="board" @playerSolution="checkSolution" />
     </div>
     <div v-else class="loading">Loading...</div>
     <div class="sidebar">
-      <div class="timer">{{ timer }}</div>
+      <timer-component :stopTimer="completed" />
+      <!-- <div class="timer">{{ timer }}</div> -->
+      <button class="temporary" @click.prevent="deletme()">stop timer</button>
       <h1>how to play?</h1>
       <div>
         <p>click or arrow keys to select cell</p>
@@ -18,46 +20,51 @@
 </template>
 <script>
 import SudokuBoard from '@/components/SudokuBoard.vue';
+import TimerComponent from '@/components/TimerComponent.vue';
 import { ref, computed } from 'vue';
 import { Service } from '@/services';
+
 export default {
   components: {
     SudokuBoard,
+    TimerComponent,
   },
   setup() {
     let board = ref([]);
-    let solution = ref([]);
+    let solution = [];
+    let completed = ref(false);
+
+    function deletme() {
+      completed.value = !completed.value;
+    }
 
     async function load() {
       const response = await Service.get('/random');
-      console.log(response.data.puzzle);
+      console.log(response.data.solution);
       board.value = response.data.puzzle;
-      solution.value = response.data.solution;
+      solution = response.data.solution;
     }
 
-    // MAKE THIS A COMPONENT VVVVV
-    let timer = computed(() => {
-      const date = new Date(null);
-      date.setSeconds(elapsedTime.value / 1000);
-      const utc = date.toUTCString();
-      return utc.substr(utc.indexOf(':') - 2, 8);
-    });
+    function checkSolution(event) {
+      console.log('here is the solution', solution);
 
-    let otherTimer = ref(undefined);
-    let elapsedTime = ref(0);
-    function startTimer() {
-      otherTimer.value = setInterval(() => {
-        elapsedTime.value += 1000;
-      }, 1000);
+      if (JSON.stringify(solution) !== JSON.stringify(event)) {
+        console.log('puzzle is not complete', event);
+      } else {
+        console.log('finished puzzle');
+        completed.value = !completed.value;
+      }
     }
 
     load();
-    startTimer();
 
     return {
-      timer,
+      // timer,
       board,
       solution,
+      completed,
+      deletme,
+      checkSolution,
     };
   },
 };
@@ -88,11 +95,7 @@ export default {
     font-size: 1rem;
   }
 }
-.timer {
-  padding: 10% 0;
-  font-size: 1.5rem;
-  color: $color-primary;
-}
+
 .loading {
   margin: 0 auto;
   padding: 2em;
