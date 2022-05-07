@@ -7,7 +7,7 @@
     <div class="sidebar">
       <timer-component :stopTimer="completed" />
       <!-- <div class="timer">{{ timer }}</div> -->
-      <button class="temporary" @click.prevent="deletme()">stop timer</button>
+      <!-- <button class="temporary" @click.prevent="deletme()">stop timer</button> -->
       <h1>how to play?</h1>
       <div>
         <p>click or arrow keys to select cell</p>
@@ -15,6 +15,7 @@
         <p>ctrl + 1-9 to insert note</p>
         <p>delete or backspace to clear cell</p>
       </div>
+      <h1 v-show="completed">good job!</h1>
     </div>
   </div>
 </template>

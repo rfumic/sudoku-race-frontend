@@ -1,5 +1,5 @@
 <template>
-  <nav-bar v-if="isLoggedIn" />
+  <nav-bar v-if="isLoggedIn" :username="username" />
   <div class="view">
     <router-view />
   </div>
@@ -22,6 +22,7 @@ export default {
 
     return {
       isLoggedIn: computed(() => store.state.authenticated),
+      username: computed(() => store.state.username),
     };
   },
 };

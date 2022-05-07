@@ -61,6 +61,7 @@ const Auth = {
       store.commit('setAuthenticated', {
         authenticated: true,
         email: user.email,
+        username: user.username,
       });
     } catch (error) {
       throw new Error(error.response.data.error);
@@ -72,6 +73,7 @@ const Auth = {
     store.commit('setAuthenticated', {
       authenticated: false,
       email: '',
+      username: '',
     });
   },
   getUser() {

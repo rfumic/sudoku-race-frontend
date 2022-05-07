@@ -8,7 +8,9 @@
     </a>
     <div class="navbar-links" :class="{ active: hamburger }">
       <ul>
-        <li><p>profile</p></li>
+        <li>
+          <p>{{ username }}</p>
+        </li>
         <li><p>leaderboard</p></li>
         <li><p>settings</p></li>
         <li><p @click="logout">logout</p></li>
@@ -22,7 +24,8 @@ import { Auth } from '@/services';
 import { useRouter } from 'vue-router';
 
 export default {
-  setup() {
+  props: ['username'],
+  setup(props) {
     const router = useRouter();
     let hamburger = ref(false);
     const openMenu = () => (hamburger.value = !hamburger.value);
