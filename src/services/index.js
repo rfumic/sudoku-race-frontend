@@ -8,7 +8,7 @@ const Service = axios.create({
   baseURL: 'http://localhost:4000/',
   timeout: 1000,
 });
-/* // DOESN'T WORK YET
+// works?
 Service.interceptors.request.use((request) => {
   let token = Auth.getToken();
   if (!token) {
@@ -28,7 +28,7 @@ Service.interceptors.response.use(
       $router.go();
     }
   }
-); */
+);
 
 const Users = {
   getAll(searchTerm = '') {

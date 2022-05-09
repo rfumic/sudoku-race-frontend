@@ -1,49 +1,52 @@
 <template>
   <div class="main">
     <h1>ranked puzzles</h1>
-    <div class="puzzle" v-for="puzzle in puzzles" :key="puzzle._id">
-      <h1>{{ puzzle.title }}</h1>
+    <div
+      class="puzzle"
+      v-for="puzzle in puzzles"
+      :key="puzzle._id"
+      @click="goTo(`/ranked-puzzles/${puzzle._id}`)"
+    >
+      <h1>{{ puzzle.name }}</h1>
       <h2>difficulty: {{ puzzle.difficulty }}</h2>
       <h2>times completed: {{ puzzle.timesCompleted }}</h2>
+      <h3>date added: {{ puzzle.dateCreated }}</h3>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /srcimport HelloWorld from '@/components/HelloWorld.vue';
 import { ref } from 'vue';
+import { Service } from '@/services';
+import router from '@/router';
+
 export default {
   name: 'RankedPuzzles',
   components: {},
   setup() {
-    let puzzles = [
-      {
-        _id: 2672375,
-        title: 'Amazing sudoku',
-        difficulty: '★★★',
-        timesCompleted: 13,
-      },
-      {
-        _id: 2234672375,
-        title: 'Amazing puzzle',
-        difficulty: '★★★★',
-        timesCompleted: 134,
-      },
-      {
-        _id: 2672645375,
-        title: 'Amazing puzzle',
-        difficulty: '★★★',
-        timesCompleted: 13,
-      },
-      {
-        _id: 26765322375,
-        title: 'Amazing puzzle',
-        difficulty: '★★★',
-        timesCompleted: 132,
-      },
-    ];
+    let puzzles = ref([]);
+
+    async function loadData() {
+      const response = await Service.get('/ranked');
+      response.data.forEach((e) => {
+        puzzles.value.push({
+          _id: e._id,
+          dateCreated: e.dateCreated.substring(0, 10),
+          difficulty: e.difficulty,
+          name: e.name,
+          timesCompleted: e.timesCompleted,
+        });
+      });
+    }
+
+    function goTo(path) {
+      router.push(path);
+    }
+
+    loadData();
     return {
       puzzles,
+      goTo,
     };
   },
 };

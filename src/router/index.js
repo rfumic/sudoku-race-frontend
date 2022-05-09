@@ -38,6 +38,14 @@ const routes = [
       ),
   },
   {
+    path: '/ranked-puzzles/:id',
+    name: 'ranked-puzzle',
+    component: () =>
+      import(
+        /* webpackChunkName: "ranked-puzzles" */ '../views/PuzzlePreview.vue'
+      ),
+  },
+  {
     path: '/practice',
     name: 'practice',
     component: () =>

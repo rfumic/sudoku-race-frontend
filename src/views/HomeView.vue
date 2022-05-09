@@ -2,7 +2,7 @@
   <div class="home">
     <div
       class="container"
-      @click="goToRanked()"
+      @click="goTo('/ranked-puzzles')"
       data-tooltip="complete puzzles to earn points"
     >
       <img src="../assets/ranked-game.png" alt="ranked game" class="logo" />
@@ -29,16 +29,12 @@ export default {
   setup() {
     let show1 = false,
       show2 = false;
-    function goToRanked() {
-      console.log('GO TO RANKED GAME');
-    }
 
     function goTo(path) {
       router.push(path);
     }
 
     return {
-      goToRanked,
       goTo,
     };
   },
