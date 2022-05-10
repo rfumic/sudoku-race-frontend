@@ -6,8 +6,6 @@
     <div v-else class="loading">Loading...</div>
     <div class="sidebar">
       <timer-component :stopTimer="completed" />
-      <!-- <div class="timer">{{ timer }}</div> -->
-      <!-- <button class="temporary" @click.prevent="deletme()">stop timer</button> -->
       <h1>how to play?</h1>
       <div>
         <p>click or arrow keys to select cell</p>
@@ -35,10 +33,6 @@ export default {
     let solution = [];
     let completed = ref(false);
 
-    function deletme() {
-      completed.value = !completed.value;
-    }
-
     async function load() {
       const response = await Service.get('/random');
       console.log(response.data.solution);
@@ -47,8 +41,6 @@ export default {
     }
 
     function checkSolution(event) {
-      console.log('here is the solution', solution);
-
       if (JSON.stringify(solution) !== JSON.stringify(event)) {
         console.log('puzzle is not complete', event);
       } else {
@@ -60,11 +52,9 @@ export default {
     load();
 
     return {
-      // timer,
       board,
       solution,
       completed,
-      deletme,
       checkSolution,
     };
   },

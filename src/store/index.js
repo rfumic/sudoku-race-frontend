@@ -5,6 +5,7 @@ export default createStore({
     authenticated: false,
     userEmail: '',
     username: '',
+    completedPuzzles: [],
   },
   getters: {
     isAuthenticated: (state) => state.authenticated,
@@ -15,6 +16,7 @@ export default createStore({
       state.authenticated = payload.authenticated;
       state.userEmail = payload.email;
       state.username = payload.username;
+      state.completedPuzzles = payload.completedPuzzles;
     },
     setState(state) {
       const user = JSON.parse(localStorage.getItem('user'));

@@ -62,6 +62,7 @@ const Auth = {
         authenticated: true,
         email: user.email,
         username: user.username,
+        completedPuzzles: user.completedPuzzles,
       });
     } catch (error) {
       throw new Error(error.response.data.error);
@@ -74,6 +75,7 @@ const Auth = {
       authenticated: false,
       email: '',
       username: '',
+      completedPuzzles: [],
     });
   },
   getUser() {
