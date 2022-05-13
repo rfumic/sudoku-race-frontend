@@ -14,6 +14,15 @@
         <p>delete or backspace to clear cell</p>
       </div>
       <h1 v-show="completed">good job!</h1>
+      <teleport to="body">
+        <div class="modal" v-if="showModal">
+          <notification-modal
+            @close="showModal = false"
+            title="good job!"
+            message="your time was 0:00"
+          />
+        </div>
+      </teleport>
     </div>
   </div>
 </template>
@@ -22,16 +31,19 @@ import SudokuBoard from '@/components/SudokuBoard.vue';
 import TimerComponent from '@/components/TimerComponent.vue';
 import { ref, computed } from 'vue';
 import { Service } from '@/services';
+import NotificationModal from '@/components/NotificationModal.vue';
 
 export default {
   components: {
     SudokuBoard,
     TimerComponent,
+    NotificationModal,
   },
   setup() {
     let board = ref([]);
     let solution = [];
     let completed = ref(false);
+    let showModal = ref(false);
 
     async function load() {
       const response = await Service.get('/random');
@@ -46,16 +58,21 @@ export default {
       } else {
         console.log('finished puzzle');
         completed.value = !completed.value;
+        showModal.value = !showModal.value;
       }
     }
 
-    load();
+    // debugging
+    board.value = [1, null, null];
+    solution = [1, 2, 3];
+    // load();
 
     return {
       board,
       solution,
       completed,
       checkSolution,
+      showModal,
     };
   },
 };
@@ -74,6 +91,7 @@ export default {
   align-items: flex-start;
   flex-flow: wrap;
   width: 100%;
+  position: relative;
 }
 .sidebar {
   // background: red;
@@ -92,6 +110,41 @@ export default {
   padding: 2em;
   color: $color-white;
   font-size: 6rem;
+}
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  div {
+    font-size: 2rem;
+    background-color: $color-white;
+    padding: 50px;
+    border-radius: 10px;
+    button {
+      width: 100%;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1.15rem;
+      color: $color-dark;
+      border: none;
+      background-color: $color-primary;
+      padding: 0.75em 1.25rem;
+      box-shadow: 3px 3px 0 0 $color-white;
+      transition: box-shadow 0.2s ease-in-out;
+
+      &:hover {
+        box-shadow: 0 0 0 0 $color-white;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1000px) {
