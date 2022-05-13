@@ -5,7 +5,7 @@
     </div>
     <div v-else class="loading">Loading...</div>
     <div class="sidebar">
-      <timer-component :stopTimer="completed" />
+      <timer-component :stopTimer="completed" @time="modalMessage" />
       <h1>how to play?</h1>
       <div>
         <p>click or arrow keys to select cell</p>
@@ -19,7 +19,7 @@
           <notification-modal
             @close="showModal = false"
             title="good job!"
-            message="your time was 0:00"
+            :message="time"
           />
         </div>
       </teleport>
@@ -44,6 +44,11 @@ export default {
     let solution = [];
     let completed = ref(false);
     let showModal = ref(false);
+    let time = ref(null);
+
+    function modalMessage(event) {
+      time.value = `your time was ${event.value}`;
+    }
 
     async function load() {
       const response = await Service.get('/random');
@@ -62,17 +67,19 @@ export default {
       }
     }
 
-    // debugging
+    /*  // debugging
     board.value = [1, null, null];
-    solution = [1, 2, 3];
-    // load();
+    solution = [1, 2, 3]; */
+    load();
 
     return {
       board,
       solution,
       completed,
+      modalMessage,
       checkSolution,
       showModal,
+      time,
     };
   },
 };

@@ -7,7 +7,7 @@ import { ref, computed, watchEffect } from 'vue';
 
 export default {
   props: ['stopTimer'],
-  setup(props) {
+  setup(props, { emit }) {
     let formattedTimer = computed(() => {
       const date = new Date(null);
       date.setSeconds(elapsedTime.value / 1000);
@@ -33,6 +33,7 @@ export default {
 
     function stop() {
       console.log('timer stopped');
+      emit('time', formattedTimer);
       clearInterval(timer.value);
     }
 
