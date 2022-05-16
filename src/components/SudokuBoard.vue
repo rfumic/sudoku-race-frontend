@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed, watchEffect } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import SudokuCell from '@/components/SudokuCell.vue';
 export default {
   props: ['board'],
@@ -75,7 +75,6 @@ export default {
     });
     // const board = Array(81).fill('');
     const board = props.board.map((e) =>
-      // CHANGE TO NULL
       e == null
         ? { digit: '', default: false, cellNotes: [] }
         : { digit: e, default: true, cellNotes: false }
@@ -84,10 +83,6 @@ export default {
     let playerBoard = ref(board);
     let currentIndex = ref(0);
     let cellNote = ref('');
-
-    watchEffect(() => {
-      console.log('dis one', playerBoard);
-    });
 
     let currentValue = computed(() => {
       // used for highlighting all cells that contain the same value
