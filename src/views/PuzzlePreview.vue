@@ -1,14 +1,14 @@
 <template>
-  <div class="view">
+  <h1 class="loading" v-if="loading">loading...</h1>
+  <div class="view" v-else>
     <h1 class="title">ranked puzzle</h1>
     <div class="container">
-      <!-- dateCreated timesCompleted likes name difficulty -->
-      <h2>{{ puzzleName }}</h2>
-      <small>date added: 12039</small>
+      <h2>{{ puzzleData.name }}</h2>
+      <small>date added: {{ puzzleData.dateCreated.substring(0, 10) }}</small>
       <div class="info">
-        <p>difficulty: ***</p>
-        <p>likes: 54</p>
-        <p>times completed: 89</p>
+        <p>difficulty: {{ puzzleData.difficulty }}</p>
+        <p>likes: {{ puzzleData.likes.length }}</p>
+        <p>times completed: {{ puzzleData.timesCompleted }}</p>
       </div>
       <button
         class="play"
@@ -46,6 +46,7 @@
 import { ref, computed } from '@vue/reactivity';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { Service } from '@/services';
 
 export default {
   setup() {
@@ -53,23 +54,44 @@ export default {
     const route = useRoute();
     const store = useStore();
 
+    let loading = ref(true);
     const id = ref(route.params.id);
+    let puzzleData = ref({});
 
     const completedPuzzles = computed(() => store.getters.getCompletedPuzzles);
-    const puzzleName = computed(() => store.getters.getCurrentPuzzle.name);
     const hasCompletedPuzzle = computed(() => {
-      completedPuzzles.value.some((obj) => Object.keys(obj).includes(id.value));
+      completedPuzzles.value.includes(id.value);
     });
 
+    async function getData() {
+      let response;
+      if (!hasCompletedPuzzle.value) {
+        response = await Service.get(`/ranked/info/${id.value}`);
+        puzzleData.value = response.data;
+        console.log(response.data);
+      }
+
+      response = await getRanking();
+
+      loading.value = false;
+    }
+
+    async function getRanking() {
+      console.log('getting ranking');
+    }
     function goTo(path) {
       router.push(path);
     }
+
+    getData();
 
     return {
       id,
       goTo,
       hasCompletedPuzzle,
-      puzzleName,
+      // puzzleName,
+      loading,
+      puzzleData,
     };
   },
 };
@@ -86,6 +108,11 @@ export default {
   // flex-flow: wrap;
   text-align: center;
   align-items: center;
+}
+.loading {
+  color: $color-white;
+  font-family: inherit;
+  font-size: 2rem;
 }
 
 /* .title {
