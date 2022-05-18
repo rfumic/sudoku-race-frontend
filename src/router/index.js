@@ -24,7 +24,7 @@ const routes = [
       import(/* webpackChunkName: "register" */ '../views/RegisterView.vue'),
   },
   {
-    path: '/match',
+    path: '/match/:id',
     name: 'match',
     component: () =>
       import(/* webpackChunkName: "match" */ '../views/MatchView.vue'),
@@ -49,9 +49,7 @@ const routes = [
     path: '/practice',
     name: 'practice',
     component: () =>
-      import(
-        /* webpackChunkName: "ranked-puzzles" */ '../views/PracticeView.vue'
-      ),
+      import(/* webpackChunkName: "practice" */ '../views/PracticeView.vue'),
   },
 ];
 

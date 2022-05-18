@@ -21,6 +21,7 @@ export default {
     store.commit('setState');
 
     return {
+      // change to getters
       isLoggedIn: computed(() => store.state.authenticated),
       username: computed(() => store.state.username),
     };

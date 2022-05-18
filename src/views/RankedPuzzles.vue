@@ -5,7 +5,7 @@
       class="puzzle"
       v-for="puzzle in puzzles"
       :key="puzzle._id"
-      @click="goTo(`/ranked-puzzles/${puzzle._id}`)"
+      @click="goTo({ id: puzzle._id, name: puzzle.name })"
     >
       <div class="puzzleInfo">
         <h1>{{ puzzle.name }}</h1>
@@ -58,8 +58,9 @@ export default {
       });
     }
 
-    function goTo(path) {
-      router.push(path);
+    function goTo(puzzle) {
+      store.commit('setCurrentPuzzle', puzzle);
+      router.push(`/ranked-puzzles/${puzzle.id}`);
     }
 
     loadData();

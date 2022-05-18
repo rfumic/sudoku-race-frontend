@@ -8,14 +8,12 @@ const Service = axios.create({
   baseURL: 'http://localhost:4000/',
   timeout: 1000,
 });
-// works?
+
 Service.interceptors.request.use((request) => {
-  let token = Auth.getToken();
-  if (!token) {
-    $router.go();
-    return;
-  } else {
-    request.headers['Authorization'] = 'Bearer ' + token;
+  try {
+    request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
+  } catch (error) {
+    console.error(error);
   }
   return request;
 });

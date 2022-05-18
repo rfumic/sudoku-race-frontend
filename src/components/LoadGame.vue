@@ -9,10 +9,11 @@ import { useRouter, useRoute } from 'vue-router';
 import GameComponent from '@/components/GameComponent.vue';
 
 export default {
+  props: ['api_route'],
   components: {
     GameComponent,
   },
-  setup() {
+  setup(props) {
     const router = useRouter();
     const route = useRoute();
     const id = ref(route.params.id);
@@ -21,7 +22,7 @@ export default {
     let solution = [];
 
     async function load() {
-      const response = await Service.get(`/ranked/${id.value}`);
+      const response = await Service.get(props.api_route);
       // console.log(response.data.solution);
       board.value = response.data.puzzle;
       solution = response.data.solution;

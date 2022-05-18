@@ -5,11 +5,15 @@ export default createStore({
     authenticated: false,
     userEmail: '',
     username: '',
+    currentPuzzle: {},
+    // neka id bude key, a vrijeme value
     completedPuzzles: [],
   },
   getters: {
     isAuthenticated: (state) => state.authenticated,
     getUserEmail: (state) => state.userEmail,
+    getCompletedPuzzles: (state) => state.completedPuzzles,
+    getCurrentPuzzle: (state) => state.currentPuzzle,
   },
   mutations: {
     setAuthenticated(state, payload) {
@@ -29,6 +33,10 @@ export default createStore({
         state.authenticated = user;
         state.username = user;
       }
+    },
+    setCurrentPuzzle(state, payload) {
+      console.log('setting in vuex', payload.id);
+      state.currentPuzzle = { id: payload.id, name: payload.name };
     },
   },
   actions: {},
