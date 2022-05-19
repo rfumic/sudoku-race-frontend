@@ -1,5 +1,10 @@
 <template>
-  <game-component v-if="board.length" :board="board" :solution="solution" />
+  <game-component
+    v-if="board.length"
+    :board="board"
+    :solution="solution"
+    @puzzleCompleted="saveResult"
+  />
   <div class="loading" v-else>loading...</div>
 </template>
 <script>
@@ -7,6 +12,7 @@ import { ref, computed } from 'vue';
 import { Service } from '@/services';
 import { useRouter, useRoute } from 'vue-router';
 import GameComponent from '@/components/GameComponent.vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -15,7 +21,10 @@ export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const store = useStore();
+
     const id = ref(route.params.id);
+    const userEmail = computed(() => store.getters.getCompletedPuzzles);
 
     let board = ref([]);
     let solution = [];
@@ -27,14 +36,39 @@ export default {
       solution = response.data.solution;
     }
 
+    async function saveResult(event) {
+      try {
+        // put request to backend
+        const userResult = {
+          [id.value]: parseInt(event),
+        };
+        console.log('userResult', userResult);
+        console.log('userEmail', userEmail.value);
+        const response = await Service.patch(
+          `/users/results/${userEmail.value}`,
+          userResult
+        );
+        console.log('response.data', response.data);
+        console.log('storing user results', event);
+
+        // commit response to vuex
+        store.commit('setAuthenticated', response.data);
+
+        router.replace('/ranked-puzzles');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
     // debugging
-    /*   board.value = [1, null, null];
-    solution = [1, 2, 3]; */
-    load();
+    board.value = [1, null, null];
+    solution = [1, 2, 3];
+    // load();
 
     return {
       board,
       solution,
+      saveResult,
     };
   },
 };

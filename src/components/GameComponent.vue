@@ -4,7 +4,7 @@
       <sudoku-board :board="board" @playerSolution="checkSolution" />
     </div>
     <div class="sidebar">
-      <timer-component :stopTimer="completed" @time="modalMessage" />
+      <timer-component :stopTimer="completed" @time="saveTime" />
       <h1>how to play?</h1>
       <div>
         <p>click or arrow keys to select cell</p>
@@ -15,9 +15,9 @@
       <teleport to="body">
         <div class="modal" v-if="showModal">
           <notification-modal
-            @close="showModal = false"
+            @close="closeModal"
             title="good job!"
-            :message="time"
+            :message="modalMessage"
           />
         </div>
       </teleport>
@@ -27,25 +27,28 @@
 <script>
 import SudokuBoard from '@/components/SudokuBoard.vue';
 import TimerComponent from '@/components/TimerComponent.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import NotificationModal from '@/components/NotificationModal.vue';
 
 export default {
   props: ['board', 'solution'],
+  emit: ['puzzleCompleted'],
   components: {
     SudokuBoard,
     TimerComponent,
     NotificationModal,
   },
-  setup(props) {
+  setup(props, ctx) {
     let board = ref(props.board);
     let solution = ref(props.solution);
     let completed = ref(false);
     let showModal = ref(false);
     let time = ref(null);
 
-    function modalMessage(event) {
-      time.value = `your time was ${event.value}`;
+    const modalMessage = computed(() => `your time was ${time.value}`);
+
+    function saveTime(event) {
+      time.value = event.value;
     }
 
     function checkSolution(event) {
@@ -58,6 +61,11 @@ export default {
       }
     }
 
+    function closeModal() {
+      ctx.emit('puzzleCompleted', time.value);
+      showModal.value = false;
+    }
+
     return {
       board,
       solution,
@@ -66,6 +74,8 @@ export default {
       checkSolution,
       showModal,
       time,
+      closeModal,
+      saveTime,
     };
   },
 };

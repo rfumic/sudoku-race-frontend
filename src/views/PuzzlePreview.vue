@@ -80,7 +80,7 @@ export default {
       console.log('getting ranking');
     }
     function goTo(path) {
-      router.push(path);
+      router.replace(path);
     }
 
     getData();
