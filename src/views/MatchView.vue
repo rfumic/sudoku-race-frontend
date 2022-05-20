@@ -24,7 +24,7 @@ export default {
     const store = useStore();
 
     const id = ref(route.params.id);
-    const userEmail = computed(() => store.getters.getCompletedPuzzles);
+    const userEmail = computed(() => store.getters.getUserEmail);
 
     let board = ref([]);
     let solution = [];
@@ -38,12 +38,10 @@ export default {
 
     async function saveResult(event) {
       try {
-        // put request to backend
+        // patch request to backend
         const userResult = {
-          [id.value]: parseInt(event),
+          [id.value]: event,
         };
-        console.log('userResult', userResult);
-        console.log('userEmail', userEmail.value);
         const response = await Service.patch(
           `/users/results/${userEmail.value}`,
           userResult

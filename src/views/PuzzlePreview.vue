@@ -59,17 +59,17 @@ export default {
     let puzzleData = ref({});
 
     const completedPuzzles = computed(() => store.getters.getCompletedPuzzles);
-    const hasCompletedPuzzle = computed(() => {
-      completedPuzzles.value.includes(id.value);
-    });
+    const hasCompletedPuzzle = ref(
+      completedPuzzles.value.some((obj) => Object.keys(obj).includes(id.value))
+    );
 
     async function getData() {
       let response;
-      if (!hasCompletedPuzzle.value) {
-        response = await Service.get(`/ranked/info/${id.value}`);
-        puzzleData.value = response.data;
-        console.log(response.data);
-      }
+      // if (!hasCompletedPuzzle.value) {
+      response = await Service.get(`/ranked/info/${id.value}`);
+      puzzleData.value = response.data;
+      console.log(response.data);
+      // }
 
       response = await getRanking();
 

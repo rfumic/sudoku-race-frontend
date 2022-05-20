@@ -28,10 +28,12 @@ export default createStore({
         state.userEmail = user.email;
         state.authenticated = !!user.email;
         state.username = user.username;
+        state.completedPuzzles = user.completedPuzzles;
       } else {
         state.userEmail = user;
         state.authenticated = user;
         state.username = user;
+        state.completedPuzzles = user;
       }
     },
     setCurrentPuzzle(state, payload) {
