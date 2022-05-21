@@ -40,7 +40,9 @@ export default {
       try {
         // patch request to backend
         const userResult = {
-          [id.value]: event,
+          // [id.value]: event,
+          id: id.value,
+          time: event,
         };
         const response = await Service.patch(
           `/users/results/${userEmail.value}`,

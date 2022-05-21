@@ -21,6 +21,14 @@ export default createStore({
       state.userEmail = payload.email;
       state.username = payload.username;
       state.completedPuzzles = payload.completedPuzzles;
+      let storage = JSON.parse(localStorage.getItem('user'));
+      localStorage.setItem('user', JSON.stringify({ ...storage, ...payload }));
+    },
+    clearState(state) {
+      state.authenticated = null;
+      state.userEmail = null;
+      state.username = null;
+      state.completedPuzzles = null;
     },
     setState(state) {
       const user = JSON.parse(localStorage.getItem('user'));

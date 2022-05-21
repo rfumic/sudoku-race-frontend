@@ -69,12 +69,7 @@ const Auth = {
   },
   logout() {
     localStorage.removeItem('user');
-    store.commit('setAuthenticated', {
-      authenticated: false,
-      email: '',
-      username: '',
-      completedPuzzles: [],
-    });
+    store.commit('clearState');
   },
   getUser() {
     return JSON.parse(localStorage.getItem('user'));

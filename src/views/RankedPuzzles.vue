@@ -59,7 +59,7 @@ export default {
     }
 
     function goTo(puzzle) {
-      store.commit('setCurrentPuzzle', puzzle);
+      // store.commit('setCurrentPuzzle', puzzle);
       router.push(`/ranked-puzzles/${puzzle.id}`);
     }
 

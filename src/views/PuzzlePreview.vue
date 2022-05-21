@@ -9,6 +9,9 @@
         <p>difficulty: {{ puzzleData.difficulty }}</p>
         <p>likes: {{ puzzleData.likes.length }}</p>
         <p>times completed: {{ puzzleData.timesCompleted }}</p>
+        <p class="time" v-if="hasCompletedPuzzle">
+          Your time was: {{ userTime }}
+        </p>
       </div>
       <button
         class="play"
@@ -54,14 +57,21 @@ export default {
     const route = useRoute();
     const store = useStore();
 
-    let loading = ref(true);
     const id = ref(route.params.id);
+    let loading = ref(true);
     let puzzleData = ref({});
+    let userTime = ref(null);
 
     const completedPuzzles = computed(() => store.getters.getCompletedPuzzles);
     const hasCompletedPuzzle = ref(
-      completedPuzzles.value.some((obj) => Object.keys(obj).includes(id.value))
+      completedPuzzles.value.filter((x) => x.id == id.value) != false
     );
+
+    if (hasCompletedPuzzle.value) {
+      userTime.value = completedPuzzles.value.filter(
+        (x) => x.id == id.value
+      )[0].time;
+    }
 
     async function getData() {
       let response;
@@ -84,6 +94,7 @@ export default {
     }
 
     getData();
+    // console.log(hasCompletedPuzzle);
 
     return {
       id,
@@ -92,6 +103,7 @@ export default {
       // puzzleName,
       loading,
       puzzleData,
+      userTime,
     };
   },
 };
@@ -148,6 +160,10 @@ export default {
 
     p {
       padding: 2%;
+      font-size: 1.5rem;
+    }
+    .time {
+      font-weight: bold;
       font-size: 1.5rem;
     }
   }
