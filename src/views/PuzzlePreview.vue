@@ -6,12 +6,18 @@
       <h2>{{ puzzleData.name }}</h2>
       <small>date added: {{ puzzleData.dateCreated.substring(0, 10) }}</small>
       <div class="info">
+        <div v-if="hasCompletedPuzzle">
+          <p>Your time was:</p>
+          <p class="time">
+            {{ userTime }}
+          </p>
+        </div>
+
         <p>difficulty: {{ puzzleData.difficulty }}</p>
-        <p>likes: {{ puzzleData.likes.length }}</p>
-        <p>times completed: {{ puzzleData.timesCompleted }}</p>
-        <p class="time" v-if="hasCompletedPuzzle">
-          Your time was: {{ userTime }}
+        <p @click="likePuzzle" :class="{ like: userLiked }">
+          likes: {{ puzzleData.likes.length }}
         </p>
+        <p>times completed: {{ puzzleData.playerResults.length }}</p>
       </div>
       <button
         class="play"
@@ -21,24 +27,14 @@
         play
       </button>
     </div>
-    <div class="container">
+    <div class="container" v-if="puzzleData.playerResults.length">
       <h2>ranking</h2>
       <div class="ranking">
         <ol>
-          <li>
-            <h2>username: time</h2>
-          </li>
-          <li>
-            <h2>username: time</h2>
-          </li>
-          <li>
-            <h2>username: time</h2>
-          </li>
-          <li>
-            <h2>username: time</h2>
-          </li>
-          <li>
-            <h2>username: time</h2>
+          <li v-for="result in puzzleData.playerResults" :key="result.email">
+            <h2>
+              {{ result.email /* change to username */ }}: {{ result.time }}
+            </h2>
           </li>
         </ol>
       </div>
@@ -58,9 +54,11 @@ export default {
     const store = useStore();
 
     const id = ref(route.params.id);
+    const userEmail = store.getters.getUserEmail;
     let loading = ref(true);
     let puzzleData = ref({});
     let userTime = ref(null);
+    let userLiked = ref(false);
 
     const completedPuzzles = computed(() => store.getters.getCompletedPuzzles);
     const hasCompletedPuzzle = ref(
@@ -76,12 +74,16 @@ export default {
     async function getData() {
       let response;
       // if (!hasCompletedPuzzle.value) {
-      response = await Service.get(`/ranked/info/${id.value}`);
+      response = await Service.get(`/ranked/${id.value}/info`);
       puzzleData.value = response.data;
       console.log(response.data);
       // }
 
       response = await getRanking();
+
+      if (puzzleData.value.likes.includes(userEmail)) {
+        userLiked.value = true;
+      }
 
       loading.value = false;
     }
@@ -89,12 +91,27 @@ export default {
     async function getRanking() {
       console.log('getting ranking');
     }
+
     function goTo(path) {
       router.replace(path);
     }
 
+    async function likePuzzle() {
+      const response = await Service.post(`/ranked/${id.value}/likes`, {
+        userEmail: userEmail,
+      });
+      userLiked.value = !userLiked.value;
+
+      if (userLiked.value) {
+        puzzleData.value.likes.push(userEmail);
+      } else {
+        puzzleData.value.likes.length -= 1;
+      }
+
+      console.log(response.data.message);
+    }
+
     getData();
-    // console.log(hasCompletedPuzzle);
 
     return {
       id,
@@ -104,6 +121,8 @@ export default {
       loading,
       puzzleData,
       userTime,
+      likePuzzle,
+      userLiked,
     };
   },
 };
@@ -164,8 +183,11 @@ export default {
     }
     .time {
       font-weight: bold;
-      font-size: 1.5rem;
+      font-size: 2.5rem;
     }
+  }
+  table {
+    border: 1px solid $color-white;
   }
   small {
     padding: 2%;
@@ -177,5 +199,8 @@ export default {
 }
 .ranking {
   font-size: 1rem;
+}
+.like {
+  color: $color-primary;
 }
 </style>
