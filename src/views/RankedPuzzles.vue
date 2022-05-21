@@ -1,6 +1,13 @@
 <template>
   <div class="main">
     <h1>ranked puzzles</h1>
+    <div class="sorting">
+      <select v-model="selectedSort">
+        <option v-for="sorting in sortingOptions" :key="sorting">
+          {{ sorting }}
+        </option>
+      </select>
+    </div>
     <div
       class="puzzle"
       v-for="puzzle in puzzles"
@@ -10,7 +17,8 @@
       <div class="puzzleInfo">
         <h1>{{ puzzle.name }}</h1>
         <h2>difficulty: {{ puzzle.difficulty }}</h2>
-        <h2>times completed: {{ puzzle.timesCompleted }}</h2>
+        <h2>times completed: {{ puzzle.timesCompleted || 0 }}</h2>
+        <h2>likes: {{ puzzle.likes.length }}</h2>
         <h3>date added: {{ puzzle.dateCreated }}</h3>
       </div>
       <div class="puzzleDone" v-if="completedPuzzles.includes(puzzle._id)">
@@ -32,7 +40,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { Service } from '@/services';
 import router from '@/router';
 import { useStore } from 'vuex';
@@ -43,31 +51,83 @@ export default {
   setup() {
     const store = useStore();
     let puzzles = ref([]);
-    const completedPuzzles = computed(() => store.state.completedPuzzles);
 
-    async function loadData() {
-      const response = await Service.get('/ranked');
-      response.data.forEach((e) => {
-        puzzles.value.push({
-          _id: e._id,
-          dateCreated: e.dateCreated.substring(0, 10),
-          difficulty: e.difficulty,
-          name: e.name,
-          timesCompleted: e.timesCompleted,
+    const sortingOptions = ref([
+      // { title: 'Newest', query: '-dateCreated' },
+      // { title: 'Most Completed', query: '-timesCompleted' },
+      // { title: 'Most Liked', query: '-likes' },
+      // { title: 'Easiest', query: 'difficulty' },
+      // { title: 'Hardest', query: '-difficulty' },
+      'newest',
+      'most completed',
+      'most liked',
+      'easiest',
+      'hardest',
+    ]);
+    let selectedSort = ref(sortingOptions.value[0]);
+    const completedPuzzles = ref(store.getters.getCompletedPuzzles);
+
+    async function loadData(query = '?') {
+      try {
+        const response = await Service.get(`/ranked${query}`);
+        puzzles.value = [];
+        response.data.forEach((e) => {
+          puzzles.value.push({
+            _id: e._id,
+            dateCreated: e.dateCreated.substring(0, 10),
+            difficulty: e.difficulty,
+            name: e.name,
+            timesCompleted: e.timesCompleted,
+            likes: e.likes,
+          });
         });
-      });
+      } catch (err) {
+        console.error(err);
+      }
     }
+    //dateCreated timesCompleted likes name difficulty
 
     function goTo(puzzle) {
       // store.commit('setCurrentPuzzle', puzzle);
       router.push(`/ranked-puzzles/${puzzle.id}`);
     }
 
+    watch(selectedSort, async () => {
+      console.log('yas', selectedSort.value);
+      let query = '?sort=';
+      switch (selectedSort.value) {
+        case 'newest': {
+          query += '-dateCreated';
+          break;
+        }
+        case 'most completed': {
+          query += 'playerResults';
+          break;
+        }
+        case 'most liked': {
+          query += '-likes';
+          break;
+        }
+        case 'easiest': {
+          query += 'difficulty';
+          break;
+        }
+        case 'hardest': {
+          query += '-difficulty';
+          break;
+        }
+      }
+
+      await loadData(query);
+    });
+
     loadData();
     return {
       puzzles,
       goTo,
       completedPuzzles,
+      sortingOptions,
+      selectedSort,
     };
   },
 };
@@ -116,5 +176,19 @@ export default {
   align-items: center;
   width: 5%;
   color: $color-primary;
+}
+.sorting {
+  // border: solid 1px red;
+  width: 50%;
+  padding: 1%;
+  select {
+    padding: 1%;
+    font-size: 1rem;
+    border: 1px solid $color-white;
+    background-color: $color-primary;
+    color: $color-dark;
+    appearance: none;
+    text-align: center;
+  }
 }
 </style>
