@@ -17,7 +17,7 @@
       <div class="puzzleInfo">
         <h1>{{ puzzle.name }}</h1>
         <h2>difficulty: {{ puzzle.difficulty }}</h2>
-        <h2>times completed: {{ puzzle.timesCompleted || 0 }}</h2>
+        <h2>times completed: {{ puzzle.playerResults.length }}</h2>
         <h2>likes: {{ puzzle.likes.length }}</h2>
         <h3>date added: {{ puzzle.dateCreated }}</h3>
       </div>
@@ -72,7 +72,7 @@ export default {
             dateCreated: e.dateCreated.substring(0, 10),
             difficulty: e.difficulty,
             name: e.name,
-            timesCompleted: e.timesCompleted,
+            playerResults: e.playerResults,
             likes: e.likes,
           });
         });
@@ -147,7 +147,6 @@ export default {
   border: 2px solid $color-white;
   padding: 2.5rem;
   width: 50%;
-  // padding-right: 50%;
   transition-property: border-color, color;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -170,7 +169,6 @@ export default {
   color: $color-primary;
 }
 .sorting {
-  // border: solid 1px red;
   width: 50%;
   padding: 1%;
   select {

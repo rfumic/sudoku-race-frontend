@@ -28,21 +28,23 @@ export default {
 
     let board = ref([]);
     let solution = [];
+    let defaults = 0;
 
     async function load() {
       const response = await Service.get(`/ranked/${id.value}`);
       // console.log(response.data.solution);
       board.value = response.data.puzzle;
       solution = response.data.solution;
+      defaults = board.value.filter((e) => e != null).length;
     }
 
     async function saveResult(event) {
       try {
         // patch request to backend
         const userResult = {
-          // [id.value]: event,
           id: id.value,
           time: event,
+          points: calcPoints(event, defaults),
         };
         const response = await Service.patch(
           `/users/results/${userEmail.value}`,
@@ -58,6 +60,15 @@ export default {
       } catch (err) {
         console.error(err);
       }
+    }
+
+    function calcPoints(timeString, numOfDefaults) {
+      // 6000 - (2 * brojZadanihBrojeva) - vrijemeUSekundama
+      return (
+        6000 -
+        2 * numOfDefaults -
+        timeString.split(':').reduce((acc, time) => 60 * acc + +time)
+      );
     }
 
     // debugging

@@ -1,7 +1,7 @@
 <template>
   <h1 class="loading" v-if="loading">loading...</h1>
   <div class="view" v-else>
-    <h1 class="title">ranked puzzle</h1>
+    <h1>ranked puzzle</h1>
     <div class="container">
       <h2>{{ puzzleData.name }}</h2>
       <small>date added: {{ puzzleData.dateCreated.substring(0, 10) }}</small>
@@ -31,20 +31,7 @@
       <h2>ranking</h2>
       <ranking-table
         :headers="['username', 'time', 'points']"
-        :rows="[
-          { username: 'user1', time: '13:32', points: '3000' },
-          { username: 'testingthetable', time: '13:32', points: '32000' },
-          { username: 'user2341', time: '13:32', points: '300' },
-          { username: 'udser14', time: '13:32', points: '3000' },
-          { username: 'user1', time: '13:32', points: '3000' },
-          { username: 'testingthetable', time: '13:32', points: '32000' },
-          { username: 'user2341', time: '13:32', points: '300' },
-          { username: 'udser14', time: '13:32', points: '3000' },
-          { username: 'user1', time: '13:32', points: '3000' },
-          { username: 'testingthetable', time: '13:32', points: '32000' },
-          { username: 'user2341', time: '13:32', points: '300' },
-          { username: 'udser14', time: '13:32', points: '3000' },
-        ]"
+        :rows="puzzleData.playerResults"
       />
     </div>
   </div>
@@ -85,23 +72,15 @@ export default {
 
     async function getData() {
       let response;
-      // if (!hasCompletedPuzzle.value) {
       response = await Service.get(`/ranked/${id.value}/info`);
       puzzleData.value = response.data;
       console.log(response.data);
-      // }
-
-      response = await getRanking();
 
       if (puzzleData.value.likes.includes(userEmail)) {
         userLiked.value = true;
       }
 
       loading.value = false;
-    }
-
-    async function getRanking() {
-      console.log('getting ranking');
     }
 
     function goTo(path) {
@@ -157,11 +136,6 @@ export default {
   font-family: inherit;
   font-size: 2rem;
 }
-
-/* .title {
-  font-size: 3em;
-  color: $color-white;
-} */
 
 .play {
   width: 50%;

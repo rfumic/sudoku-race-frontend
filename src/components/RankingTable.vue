@@ -16,9 +16,7 @@
 </template>
 
 <script>
-export default {
-  props: ['headers', 'rows'],
-};
+export default { props: ['headers', 'rows'] };
 </script>
 
 <style lang="scss" scoped>
