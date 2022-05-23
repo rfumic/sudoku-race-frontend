@@ -8,7 +8,9 @@
         </option>
       </select>
     </div>
+    <loading-component v-if="loading" />
     <div
+      v-else
       class="puzzle"
       v-for="puzzle in puzzles"
       :key="puzzle._id"
@@ -44,13 +46,18 @@ import { ref, watch } from 'vue';
 import { Service } from '@/services';
 import router from '@/router';
 import { useStore } from 'vuex';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   name: 'RankedPuzzles',
-  components: {},
+  components: {
+    LoadingComponent,
+  },
   setup() {
     const store = useStore();
     let puzzles = ref([]);
+
+    let loading = ref(true);
 
     const sortingOptions = ref([
       'newest',
@@ -63,6 +70,7 @@ export default {
     const completedPuzzles = ref(store.getters.getCompletedPuzzles);
 
     async function loadData(query = '?') {
+      loading.value = true;
       try {
         const response = await Service.get(`/ranked${query}`);
         puzzles.value = [];
@@ -76,6 +84,7 @@ export default {
             likes: e.likes,
           });
         });
+        loading.value = false;
       } catch (err) {
         console.error(err);
       }
@@ -120,6 +129,7 @@ export default {
       completedPuzzles,
       sortingOptions,
       selectedSort,
+      loading,
     };
   },
 };

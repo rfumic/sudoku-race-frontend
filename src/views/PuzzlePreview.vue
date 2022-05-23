@@ -1,5 +1,5 @@
 <template>
-  <h1 class="loading" v-if="loading">loading...</h1>
+  <loading-component v-if="loading" />
   <div class="view" v-else>
     <h1>ranked puzzle</h1>
     <div class="container">
@@ -42,10 +42,12 @@ import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { Service } from '@/services';
 import RankingTable from '@/components/RankingTable.vue';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   components: {
     RankingTable,
+    LoadingComponent,
   },
   setup() {
     const router = useRouter();

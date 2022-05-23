@@ -5,17 +5,19 @@
     :solution="solution"
     @puzzleCompleted="router.replace('/')"
   />
-  <div class="loading" v-else>loading...</div>
+  <loading-component v-else />
 </template>
 <script>
 import { ref } from 'vue';
 import { Service } from '@/services';
 import GameComponent from '@/components/GameComponent.vue';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
     GameComponent,
+    LoadingComponent,
   },
   setup() {
     const router = useRouter();
@@ -30,10 +32,10 @@ export default {
       solution = response.data.solution;
     }
 
-    // debugging
+    /*     // debugging
     board.value = [1, null, null];
-    solution = [1, 2, 3];
-    // load();
+    solution = [1, 2, 3]; */
+    load();
 
     return {
       board,

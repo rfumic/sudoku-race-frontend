@@ -5,18 +5,20 @@
     :solution="solution"
     @puzzleCompleted="saveResult"
   />
-  <div class="loading" v-else>loading...</div>
+  <loading-component />
 </template>
 <script>
 import { ref, computed } from 'vue';
 import { Service } from '@/services';
 import { useRouter, useRoute } from 'vue-router';
 import GameComponent from '@/components/GameComponent.vue';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 import { useStore } from 'vuex';
 
 export default {
   components: {
     GameComponent,
+    LoadingComponent,
   },
   setup() {
     const router = useRouter();

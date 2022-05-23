@@ -54,7 +54,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e6e6e6;
+  background: $color-white;
 
   color: $color-blue;
 
