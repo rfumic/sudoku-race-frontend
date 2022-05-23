@@ -53,11 +53,6 @@ export default {
     let puzzles = ref([]);
 
     const sortingOptions = ref([
-      // { title: 'Newest', query: '-dateCreated' },
-      // { title: 'Most Completed', query: '-timesCompleted' },
-      // { title: 'Most Liked', query: '-likes' },
-      // { title: 'Easiest', query: 'difficulty' },
-      // { title: 'Hardest', query: '-difficulty' },
       'newest',
       'most completed',
       'most liked',
@@ -85,15 +80,12 @@ export default {
         console.error(err);
       }
     }
-    //dateCreated timesCompleted likes name difficulty
 
     function goTo(puzzle) {
-      // store.commit('setCurrentPuzzle', puzzle);
       router.push(`/ranked-puzzles/${puzzle.id}`);
     }
 
     watch(selectedSort, async () => {
-      console.log('yas', selectedSort.value);
       let query = '?sort=';
       switch (selectedSort.value) {
         case 'newest': {

@@ -121,13 +121,14 @@ export default {
   div {
     font-size: 2rem;
     background-color: $color-white;
-    padding: 50px;
+    padding: 5%;
     border-radius: 10px;
     button {
       width: 100%;
       cursor: pointer;
       font-family: inherit;
       font-size: 1.15rem;
+      margin-top: 5%;
       color: $color-dark;
       border: none;
       background-color: $color-primary;

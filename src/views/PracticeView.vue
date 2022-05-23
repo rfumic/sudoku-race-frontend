@@ -1,17 +1,25 @@
 <template>
-  <game-component v-if="board.length" :board="board" :solution="solution" />
+  <game-component
+    v-if="board.length"
+    :board="board"
+    :solution="solution"
+    @puzzleCompleted="router.replace('/')"
+  />
   <div class="loading" v-else>loading...</div>
 </template>
 <script>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { Service } from '@/services';
 import GameComponent from '@/components/GameComponent.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
     GameComponent,
   },
   setup() {
+    const router = useRouter();
+
     let board = ref([]);
     let solution = [];
 
@@ -22,14 +30,15 @@ export default {
       solution = response.data.solution;
     }
 
-    /*     // debugging
+    // debugging
     board.value = [1, null, null];
-    solution = [1, 2, 3]; */
-    load();
+    solution = [1, 2, 3];
+    // load();
 
     return {
       board,
       solution,
+      router,
     };
   },
 };

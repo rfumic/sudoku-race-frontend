@@ -29,15 +29,23 @@
     </div>
     <div class="container" v-if="puzzleData.playerResults.length">
       <h2>ranking</h2>
-      <div class="ranking">
-        <ol>
-          <li v-for="result in puzzleData.playerResults" :key="result.email">
-            <h2>
-              {{ result.email /* change to username */ }}: {{ result.time }}
-            </h2>
-          </li>
-        </ol>
-      </div>
+      <ranking-table
+        :headers="['username', 'time', 'points']"
+        :rows="[
+          { username: 'user1', time: '13:32', points: '3000' },
+          { username: 'testingthetable', time: '13:32', points: '32000' },
+          { username: 'user2341', time: '13:32', points: '300' },
+          { username: 'udser14', time: '13:32', points: '3000' },
+          { username: 'user1', time: '13:32', points: '3000' },
+          { username: 'testingthetable', time: '13:32', points: '32000' },
+          { username: 'user2341', time: '13:32', points: '300' },
+          { username: 'udser14', time: '13:32', points: '3000' },
+          { username: 'user1', time: '13:32', points: '3000' },
+          { username: 'testingthetable', time: '13:32', points: '32000' },
+          { username: 'user2341', time: '13:32', points: '300' },
+          { username: 'udser14', time: '13:32', points: '3000' },
+        ]"
+      />
     </div>
   </div>
 </template>
@@ -46,8 +54,12 @@ import { ref, computed } from '@vue/reactivity';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { Service } from '@/services';
+import RankingTable from '@/components/RankingTable.vue';
 
 export default {
+  components: {
+    RankingTable,
+  },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -186,9 +198,7 @@ export default {
       font-size: 2.5rem;
     }
   }
-  table {
-    border: 1px solid $color-white;
-  }
+
   small {
     padding: 2%;
     font-size: 1rem;
@@ -197,9 +207,7 @@ export default {
     padding: 1rem;
   }
 }
-.ranking {
-  font-size: 1rem;
-}
+
 .like {
   color: $color-primary;
 }
