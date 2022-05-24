@@ -13,7 +13,7 @@
         </select>
       </div>
       <ranking-table
-        :headers="['username', 'points', 'completed']"
+        :headers="['username', 'total points', 'completed']"
         :rows="leaderboard"
       />
     </div>
@@ -41,16 +41,13 @@ export default {
     async function getData(query = '?') {
       loading.value = true;
 
-      //   const response = await Service.get(`/leaderboard${query}`);
+      const response = await Service.get(`/users${query}`);
+      response.data.forEach((user) => {
+        user.totalPoints = user.totalPoints || 0; // remove from final
+        delete user._id;
+      });
+      leaderboard.value = response.data;
 
-      console.log('getting data');
-      leaderboard.value = [
-        { username: 'joe', totalPoints: 12344, completedPuzzles: 13 },
-        { username: 'asfe', totalPoints: 12344, completedPuzzles: 13 },
-        { username: 'asdfasdf', totalPoints: 12344, completedPuzzles: 13 },
-        { username: 'huihfrn', totalPoints: 12344, completedPuzzles: 13 },
-        { username: 'joe', totalPoints: 12344, completedPuzzles: 13 },
-      ];
       loading.value = false;
     }
 
@@ -58,11 +55,11 @@ export default {
       let query = '?sort=';
       switch (selectedSort.value) {
         case 'most points': {
-          query += '-dateCreated';
+          query += '-totalPoints';
           break;
         }
         case 'most completed': {
-          query += 'playerResults';
+          query += '-numberOfCompleted';
           break;
         }
       }

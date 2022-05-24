@@ -34,9 +34,9 @@ table {
   border-collapse: collapse;
 
   margin: 25px 0;
-  font-size: 0.9em;
   min-width: 400px;
-  text-align: left;
+  text-align: center;
+  font-size: 0.9em;
 
   thead {
     tr {
@@ -57,7 +57,7 @@ table {
         opacity: 0.5;
         cursor: pointer;
       }
-      text-align: center;
+      text-align: left;
     }
   }
 }
