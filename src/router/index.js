@@ -51,6 +51,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "practice" */ '../views/PracticeView.vue'),
   },
+  {
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: () =>
+      import(
+        /* webpackChunkName: "leaderboard" */ '../views/LeaderboardView.vue'
+      ),
+  },
 ];
 
 const router = createRouter({

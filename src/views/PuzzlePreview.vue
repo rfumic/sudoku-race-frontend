@@ -32,12 +32,13 @@
       <ranking-table
         :headers="['username', 'time', 'points']"
         :rows="puzzleData.playerResults"
+        @clicked="() => 'handle emit'"
       />
     </div>
   </div>
 </template>
 <script>
-import { ref, computed } from '@vue/reactivity';
+import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { Service } from '@/services';

@@ -11,7 +11,7 @@
         <li>
           <p>{{ username }}</p>
         </li>
-        <li><p>leaderboard</p></li>
+        <li @click="goTo('/leaderboard')"><p>leaderboard</p></li>
         <li><p>settings</p></li>
         <li><p @click="logout">logout</p></li>
       </ul>

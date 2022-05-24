@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, index) in rows" :key="index">
+      <tr v-for="(row, index) in rows" :key="index" @click="emit(row)">
         <td>{{ index + 1 }}</td>
         <td v-for="column in row" :key="column">{{ column }}</td>
       </tr>
@@ -16,7 +16,15 @@
 </template>
 
 <script>
-export default { props: ['headers', 'rows'] };
+export default {
+  emits: ['clicked'],
+  props: ['headers', 'rows'],
+  setup(props, ctx) {
+    return {
+      emit: (payload) => ctx.emit('clicked', payload),
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -45,6 +53,11 @@ table {
       &:nth-of-type(even) {
         background-color: #353535;
       }
+      &:hover {
+        opacity: 0.5;
+        cursor: pointer;
+      }
+      text-align: center;
     }
   }
 }

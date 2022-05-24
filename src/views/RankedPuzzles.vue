@@ -69,7 +69,7 @@ export default {
     let selectedSort = ref(sortingOptions.value[0]);
     const completedPuzzles = ref(store.getters.getCompletedPuzzles);
 
-    async function loadData(query = '?') {
+    async function getData(query = '?') {
       loading.value = true;
       try {
         const response = await Service.get(`/ranked${query}`);
@@ -119,10 +119,10 @@ export default {
         }
       }
 
-      await loadData(query);
+      await getData(query);
     });
 
-    loadData();
+    getData();
     return {
       puzzles,
       goTo,
