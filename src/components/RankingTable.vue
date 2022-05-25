@@ -37,7 +37,7 @@ table {
   min-width: 400px;
   text-align: center;
   font-size: 0.9em;
-
+  width: 90%;
   thead {
     tr {
       font-weight: bold;
@@ -65,5 +65,17 @@ table {
 table th,
 table td {
   padding: 12px 15px;
+}
+@media (max-width: 770px) {
+  table {
+    width: 75%;
+    margin: 2% 0;
+    font-size: 0.75em;
+  }
+}
+@media (max-width: 650px) {
+  table {
+    font-size: 0.5em;
+  }
 }
 </style>

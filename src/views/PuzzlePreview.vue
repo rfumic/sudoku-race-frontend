@@ -14,10 +14,21 @@
         </div>
 
         <p>difficulty: {{ puzzleData.difficulty }}</p>
-        <p @click="likePuzzle" :class="{ like: userLiked }">
-          likes: {{ puzzleData.likes.length }}
-        </p>
         <p>times completed: {{ puzzleData.playerResults.length }}</p>
+        <button @click="likePuzzle" class="like" :class="{ liked: userLiked }">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+            />
+          </svg>
+          <p v-if="userLiked">{{ puzzleData.likes.length }}</p>
+          <p v-else>{{ puzzleData.likes.length }}</p>
+        </button>
       </div>
       <button
         class="play"
@@ -133,6 +144,9 @@ export default {
   // flex-flow: wrap;
   text-align: center;
   align-items: center;
+  h1 {
+    font-size: 3rem;
+  }
 }
 .loading {
   color: $color-white;
@@ -184,8 +198,43 @@ export default {
     padding: 1rem;
   }
 }
-
 .like {
+  // width: 50%;
+  cursor: pointer;
+  font-family: inherit;
+  color: $color-dark;
+  border: none;
+  background-color: $color-primary;
+  box-shadow: 3px 3px 0 0 $color-white;
+  transition: box-shadow 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  transition: ease-out 0.2s;
+  &:hover {
+    box-shadow: 0 0 0 0 $color-white;
+  }
+
+  svg {
+    width: 1.5rem;
+  }
+}
+
+.liked {
+  background-color: $color-white;
+  box-shadow: 3px 3px 0 0 $color-primary;
   color: $color-primary;
+}
+
+@media (max-width: 770px) {
+  .view {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+  .container {
+    width: 75%;
+  }
 }
 </style>

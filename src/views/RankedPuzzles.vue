@@ -191,4 +191,19 @@ export default {
     text-align: center;
   }
 }
+
+@media (max-width: 770px) {
+  .main {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+  .sorting {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+  }
+}
 </style>

@@ -109,7 +109,7 @@ export default {
     border-radius: 10px;
   }
 }
-@media (max-width: 720px) {
+@media (max-width: 770px) {
   .brand {
     text-align: center;
     padding: 0;

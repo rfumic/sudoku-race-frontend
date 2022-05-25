@@ -13,7 +13,7 @@
         </select>
       </div>
       <ranking-table
-        :headers="['username', 'total points', 'completed']"
+        :headers="['username', 'total played', 'total points']"
         :rows="leaderboard"
       />
     </div>
@@ -35,7 +35,7 @@ export default {
     let loading = ref(true);
     let leaderboard = ref([]);
 
-    const sortingOptions = ref(['most points', 'most completed']);
+    const sortingOptions = ref(['most points', 'most played']);
     let selectedSort = ref(sortingOptions.value[0]);
 
     async function getData(query = '?') {
@@ -58,7 +58,7 @@ export default {
           query += '-totalPoints';
           break;
         }
-        case 'most completed': {
+        case 'most played': {
           query += '-numberOfCompleted';
           break;
         }
@@ -89,6 +89,9 @@ export default {
   // flex-flow: wrap;
   text-align: center;
   align-items: center;
+  h1 {
+    font-size: 3rem;
+  }
 }
 
 .container {
@@ -100,26 +103,6 @@ export default {
   max-width: 100%;
   align-items: center;
   width: 100%;
-  /*   .info {
-    width: 100%;
-
-    p {
-      padding: 2%;
-      font-size: 1.5rem;
-    }
-    .time {
-      font-weight: bold;
-      font-size: 2.5rem;
-    }
-  }
-
-  small {
-    padding: 2%;
-    font-size: 1rem;
-  }
-  button {
-    padding: 1rem;
-  } */
 }
 
 .sorting {
@@ -134,6 +117,17 @@ export default {
     color: $color-dark;
     appearance: none;
     text-align: center;
+  }
+}
+
+@media (max-width: 770px) {
+  .view {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+  .container {
+    width: 75%;
   }
 }
 </style>
