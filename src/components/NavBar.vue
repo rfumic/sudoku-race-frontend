@@ -8,7 +8,7 @@
     </a>
     <div class="navbar-links" :class="{ active: hamburger }">
       <ul>
-        <li>
+        <li @click="goTo(`/user/${username}`)">
           <p>{{ username }}</p>
         </li>
         <li @click="goTo('/leaderboard')"><p>leaderboard</p></li>

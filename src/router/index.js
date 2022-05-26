@@ -59,6 +59,12 @@ const routes = [
         /* webpackChunkName: "leaderboard" */ '../views/LeaderboardView.vue'
       ),
   },
+  {
+    path: '/user/:username',
+    name: 'profile',
+    component: () =>
+      import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
+  },
 ];
 
 const router = createRouter({

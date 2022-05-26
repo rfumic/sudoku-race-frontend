@@ -6,7 +6,6 @@ export default createStore({
     userEmail: '',
     username: '',
     currentPuzzle: {},
-    // neka id bude key, a vrijeme value
     completedPuzzles: [],
   },
   getters: {
