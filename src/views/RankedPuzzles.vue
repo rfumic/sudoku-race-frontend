@@ -1,5 +1,6 @@
 <template>
-  <div class="main">
+  <loading-component v-if="loading" />
+  <div class="main" v-else>
     <h1>ranked puzzles</h1>
     <div class="sorting">
       <select v-model="selectedSort">
@@ -8,9 +9,7 @@
         </option>
       </select>
     </div>
-    <loading-component v-if="loading" />
     <div
-      v-else
       class="puzzle"
       v-for="puzzle in puzzles"
       :key="puzzle._id"
@@ -38,6 +37,9 @@
         </svg>
       </div>
     </div>
+    <button class="loadMore" @click="loadMore" v-if="showLoadMore">
+      load more
+    </button>
   </div>
 </template>
 
@@ -58,6 +60,10 @@ export default {
     let puzzles = ref([]);
 
     let loading = ref(true);
+    let showLoadMore = ref(true);
+    let skip = 0;
+    let limit = 1;
+    let hasMoreData = false;
 
     const sortingOptions = ref([
       'newest',
@@ -69,12 +75,10 @@ export default {
     let selectedSort = ref(sortingOptions.value[0]);
     const completedPuzzles = ref(store.getters.getCompletedPuzzles);
 
-    async function getData(query = '?') {
-      loading.value = true;
+    async function getData(query = '') {
       try {
-        const response = await Service.get(`/ranked${query}`);
-        puzzles.value = [];
-        response.data.forEach((e) => {
+        const response = await Service.get(`/ranked?skip=${skip}&${query}`);
+        response.data.puzzles.forEach((e) => {
           puzzles.value.push({
             _id: e._id,
             dateCreated: e.dateCreated.substring(0, 10),
@@ -84,9 +88,17 @@ export default {
             likes: e.likes,
           });
         });
-        loading.value = false;
+        hasMoreData = response.data.meta.hasMoreData;
+        showLoadMore.value = hasMoreData;
       } catch (err) {
         console.error(err);
+      }
+    }
+
+    function loadMore() {
+      if (hasMoreData) {
+        skip += 10;
+        getData();
       }
     }
 
@@ -95,7 +107,9 @@ export default {
     }
 
     watch(selectedSort, async () => {
-      let query = '?sort=';
+      puzzles.value = [];
+      skip = 0;
+      let query = 'sort=';
       switch (selectedSort.value) {
         case 'newest': {
           query += '-dateCreated';
@@ -122,7 +136,10 @@ export default {
       await getData(query);
     });
 
-    getData();
+    (async () => {
+      await getData();
+      loading.value = false;
+    })();
     return {
       puzzles,
       goTo,
@@ -130,6 +147,8 @@ export default {
       sortingOptions,
       selectedSort,
       loading,
+      loadMore,
+      showLoadMore,
     };
   },
 };
@@ -137,6 +156,17 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
+
+@mixin hover-effect {
+  transition-property: border-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  &:hover {
+    cursor: pointer;
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
 
 .main {
   width: 100%;
@@ -157,18 +187,10 @@ export default {
   border: 2px solid $color-white;
   padding: 2.5rem;
   width: 50%;
-  transition-property: border-color, color;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
   justify-content: space-between;
-
+  @include hover-effect;
   h1 {
     font-size: 2.5rem;
-  }
-  &:hover {
-    cursor: pointer;
-    border-color: $color-primary;
-    color: $color-primary;
   }
 }
 
@@ -190,6 +212,15 @@ export default {
     appearance: none;
     text-align: center;
   }
+}
+.loadMore {
+  padding: 1%;
+  font-size: 1rem;
+  border: 1px solid $color-white;
+  background-color: $color-dark;
+  color: $color-white;
+  text-align: center;
+  @include hover-effect;
 }
 
 @media (max-width: 770px) {
