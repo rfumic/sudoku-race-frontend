@@ -5,7 +5,7 @@
 
     <div class="container">
       <div class="sorting">
-        <label>Sort by: </label>
+        <label>sort by: </label>
         <select v-model="selectedSort">
           <option v-for="sorting in sortingOptions" :key="sorting">
             {{ sorting }}
@@ -15,6 +15,7 @@
       <ranking-table
         :headers="['username', 'total played', 'total points']"
         :rows="leaderboard"
+        @clicked="goToProfile"
       />
     </div>
   </div>
@@ -32,6 +33,8 @@ export default {
     LoadingComponent,
   },
   setup() {
+    const router = useRouter();
+
     let loading = ref(true);
     let leaderboard = ref([]);
 
@@ -49,6 +52,10 @@ export default {
       leaderboard.value = response.data;
 
       loading.value = false;
+    }
+
+    function goToProfile(event) {
+      router.push(`/user/${event.username}`);
     }
 
     watch(selectedSort, async () => {
@@ -73,6 +80,7 @@ export default {
       leaderboard,
       sortingOptions,
       selectedSort,
+      goToProfile,
     };
   },
 };

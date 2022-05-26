@@ -76,6 +76,7 @@ router.beforeEach((to, from, next) => {
   const loginNotNeeded = ['/login', '/register'];
   const needsLogin = !loginNotNeeded.includes(to.path);
   const user = Auth.getUser();
+  window.document.title = `${to.params.username || to.name} | sudoku-race`;
 
   if (needsLogin && !user) {
     next('/login');

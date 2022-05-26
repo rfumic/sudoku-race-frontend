@@ -43,7 +43,7 @@
       <ranking-table
         :headers="['username', 'time', 'points']"
         :rows="puzzleData.playerResults"
-        @clicked="() => 'handle emit'"
+        @clicked="goToProfile"
       />
     </div>
   </div>
@@ -116,18 +116,22 @@ export default {
       console.log(response.data.message);
     }
 
+    function goToProfile(event) {
+      router.push(`/user/${event.email}`);
+    }
+
     getData();
 
     return {
       id,
       goTo,
       hasCompletedPuzzle,
-      // puzzleName,
       loading,
       puzzleData,
       userTime,
       likePuzzle,
       userLiked,
+      goToProfile,
     };
   },
 };

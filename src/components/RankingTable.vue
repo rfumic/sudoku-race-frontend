@@ -19,9 +19,9 @@
 export default {
   emits: ['clicked'],
   props: ['headers', 'rows'],
-  setup(props, ctx) {
+  setup(p, { emit }) {
     return {
-      emit: (payload) => ctx.emit('clicked', payload),
+      emit: (payload) => emit('clicked', payload),
     };
   },
 };
