@@ -12,7 +12,7 @@
           <p>{{ username }}</p>
         </li>
         <li @click="goTo('/leaderboard')"><p>leaderboard</p></li>
-        <li><p>settings</p></li>
+        <li @click="goTo('/settings')"><p>settings</p></li>
         <li><p @click="logout">logout</p></li>
       </ul>
     </div>
@@ -78,7 +78,8 @@ export default {
   }
   li {
     list-style: none;
-    p {
+    p,
+    a {
       text-decoration: none;
       color: $color-white;
       padding: 1rem;
