@@ -216,6 +216,7 @@ export default {
   align-items: center;
   margin: 0 auto;
   transition: ease-out 0.2s;
+  margin-bottom: 1rem;
   &:hover {
     box-shadow: 0 0 0 0 $color-white;
   }

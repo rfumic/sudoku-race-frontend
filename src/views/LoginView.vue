@@ -55,7 +55,8 @@ export default {
             });
           }
         } catch (err) {
-          error.value = err.message;
+          error.value = err;
+          console.error(err);
         }
       }
     }

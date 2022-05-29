@@ -120,7 +120,7 @@ export default {
           break;
         }
         case 'most liked': {
-          query += '-likes';
+          query += '-numberOfLikes';
           break;
         }
         case 'easiest': {

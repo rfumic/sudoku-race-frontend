@@ -18,6 +18,9 @@
         @clicked="goToProfile"
       />
     </div>
+    <button class="loadMore" @click="loadMore" v-if="showLoadMore">
+      load more
+    </button>
   </div>
 </template>
 <script>
@@ -37,29 +40,41 @@ export default {
 
     let loading = ref(true);
     let leaderboard = ref([]);
+    let showLoadMore = ref(true);
+
+    let skip = 0;
+    let hasMoreData = false;
+    let query = '';
 
     const sortingOptions = ref(['most points', 'most played']);
     let selectedSort = ref(sortingOptions.value[0]);
 
-    async function getData(query = '?') {
-      loading.value = true;
-
-      const response = await Service.get(`/users${query}`);
-      response.data.forEach((user) => {
+    async function getData() {
+      const response = await Service.get(`/users?skip=${skip}&${query}`);
+      // leaderboard.value = response.data.users;
+      response.data.users.forEach((user) => {
         user.totalPoints = user.totalPoints || 0; // remove from final
         delete user._id;
+        leaderboard.value.push(user);
       });
-      leaderboard.value = response.data;
-
-      loading.value = false;
+      hasMoreData = response.data.meta.hasMoreData;
+      showLoadMore.value = hasMoreData;
     }
 
     function goToProfile(event) {
       router.push(`/user/${event.username}`);
     }
 
+    function loadMore() {
+      if (hasMoreData) {
+        skip += 5;
+        getData();
+      }
+    }
     watch(selectedSort, async () => {
-      let query = '?sort=';
+      leaderboard.value = [];
+      skip = 0;
+      query = 'sort=';
       switch (selectedSort.value) {
         case 'most points': {
           query += '-totalPoints';
@@ -70,17 +85,23 @@ export default {
           break;
         }
       }
-
+      loading.value = true;
       await getData(query);
+      loading.value = false;
     });
 
-    getData();
+    (async () => {
+      await getData();
+      loading.value = false;
+    })();
     return {
       loading,
       leaderboard,
       sortingOptions,
       selectedSort,
       goToProfile,
+      loadMore,
+      showLoadMore,
     };
   },
 };
@@ -94,7 +115,6 @@ export default {
   font-size: 2rem;
   display: flex;
   justify-content: center;
-  // flex-flow: wrap;
   text-align: center;
   align-items: center;
   h1 {
@@ -127,7 +147,22 @@ export default {
     text-align: center;
   }
 }
-
+.loadMore {
+  padding: 1%;
+  font-size: 1rem;
+  border: 1px solid $color-white;
+  background-color: $color-dark;
+  color: $color-white;
+  text-align: center;
+  transition-property: border-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  &:hover {
+    cursor: pointer;
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
 @media (max-width: 770px) {
   .view {
     h1 {

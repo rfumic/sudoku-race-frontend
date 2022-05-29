@@ -5,7 +5,7 @@
     :solution="solution"
     @puzzleCompleted="saveResult"
   />
-  <loading-component />
+  <loading-component v-else />
 </template>
 <script>
 import { ref, computed } from 'vue';

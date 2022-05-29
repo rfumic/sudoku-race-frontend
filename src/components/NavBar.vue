@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <div @click="goTo('/')" class="brand"><i> sudoku-race </i></div>
+    <router-link to="/" class="brand"><i> sudoku-race </i></router-link>
     <a class="hamburger-button" @click="openMenu()">
       <span class="bar"></span>
       <span class="bar"></span>
@@ -8,11 +8,16 @@
     </a>
     <div class="navbar-links" :class="{ active: hamburger }">
       <ul>
-        <li @click="goTo(`/user/${username}`)">
-          <p>{{ username }}</p>
+        <li>
+          <router-link
+            :to="{ name: 'profile', params: { username: username } }"
+            >{{ username }}</router-link
+          >
         </li>
-        <li @click="goTo('/leaderboard')"><p>leaderboard</p></li>
-        <li @click="goTo('/settings')"><p>settings</p></li>
+        <li>
+          <router-link to="/leaderboard">leaderboard</router-link>
+        </li>
+        <li><router-link to="/settings">settings</router-link></li>
         <li><p @click="logout">logout</p></li>
       </ul>
     </div>
@@ -34,15 +39,11 @@ export default {
       Auth.logout();
       router.go();
     }
-    function goTo(path) {
-      router.push(path);
-    }
 
     return {
       hamburger,
       logout,
       openMenu,
-      goTo,
     };
   },
 };
@@ -51,6 +52,13 @@ export default {
 @use '@/scss/colors.scss' as *;
 * {
   box-sizing: border-box;
+}
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
 }
 .navbar {
   display: flex;

@@ -16,7 +16,7 @@ export default createStore({
   },
   mutations: {
     setAuthenticated(state, payload) {
-      state.authenticated = payload.authenticated;
+      state.authenticated = payload.authenticated || !!payload.password;
       state.userEmail = payload.email;
       state.username = payload.username;
       state.completedPuzzles = payload.completedPuzzles;

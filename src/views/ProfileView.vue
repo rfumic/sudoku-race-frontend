@@ -1,6 +1,6 @@
 <template>
   <loading-component v-if="!userData" />
-  <h1 v-else-if="error">Couldn't get data</h1>
+  <h1 class="view" v-else-if="error">user doesn't exist</h1>
   <div class="view" v-else>
     <h1>{{ userData.username }}</h1>
     <div class="container">

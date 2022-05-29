@@ -54,16 +54,21 @@ const Auth = {
         email,
         password,
       });
-      const user = response.data;
-      localStorage.setItem('user', JSON.stringify(user));
-      store.commit('setAuthenticated', {
-        authenticated: true,
-        email: user.email,
-        username: user.username,
-        completedPuzzles: user.completedPuzzles,
-      });
+      if (!response) {
+        throw new Error();
+      } else {
+        const user = response.data;
+
+        localStorage.setItem('user', JSON.stringify(user));
+        store.commit('setAuthenticated', {
+          authenticated: true,
+          email: user.email,
+          username: user.username,
+          completedPuzzles: user.completedPuzzles,
+        });
+      }
     } catch (error) {
-      throw new Error(error.response.data.error);
+      throw new Error('error logging in');
     }
     return true;
   },
