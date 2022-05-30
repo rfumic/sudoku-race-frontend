@@ -74,9 +74,9 @@ export default {
     }
 
     // debugging
-    board.value = [1, null, null];
-    solution = [1, 2, 3];
-    // load();
+    // board.value = [1, null, null];
+    // solution = [1, 2, 3];
+    load();
 
     return {
       board,

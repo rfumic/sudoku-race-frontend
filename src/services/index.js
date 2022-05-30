@@ -5,7 +5,7 @@ import $router from '@/router';
 // const router = useRouter();
 
 const Service = axios.create({
-  baseURL: 'http://localhost:4000/',
+  baseURL: 'https://gentle-mountain-95216.herokuapp.com/',
   timeout: 1000,
 });
 

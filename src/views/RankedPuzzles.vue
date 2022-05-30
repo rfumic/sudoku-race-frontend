@@ -17,7 +17,6 @@
     >
       <div class="puzzleInfo">
         <h1>{{ puzzle.name }}</h1>
-        <h2>difficulty: {{ puzzle.difficulty }}</h2>
         <h2>times completed: {{ puzzle.playerResults.length }}</h2>
         <h2>likes: {{ puzzle.likes.length }}</h2>
         <h3>date added: {{ puzzle.dateCreated }}</h3>
@@ -65,13 +64,7 @@ export default {
     let limit = 1;
     let hasMoreData = false;
 
-    const sortingOptions = ref([
-      'newest',
-      'most completed',
-      'most liked',
-      'easiest',
-      'hardest',
-    ]);
+    const sortingOptions = ref(['newest', 'most completed', 'most liked']);
     let selectedSort = ref(sortingOptions.value[0]);
     const completedPuzzles = ref(store.getters.getCompletedPuzzles);
 
@@ -82,7 +75,6 @@ export default {
           puzzles.value.push({
             _id: e._id,
             dateCreated: e.dateCreated.substring(0, 10),
-            difficulty: e.difficulty,
             name: e.name,
             playerResults: e.playerResults,
             likes: e.likes,
@@ -121,14 +113,6 @@ export default {
         }
         case 'most liked': {
           query += '-numberOfLikes';
-          break;
-        }
-        case 'easiest': {
-          query += 'difficulty';
-          break;
-        }
-        case 'hardest': {
-          query += '-difficulty';
           break;
         }
       }

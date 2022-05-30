@@ -13,7 +13,6 @@
           </p>
         </div>
 
-        <p>difficulty: {{ puzzleData.difficulty }}</p>
         <p>times completed: {{ puzzleData.playerResults.length }}</p>
         <button @click="likePuzzle" class="like" :class="{ liked: userLiked }">
           <svg
