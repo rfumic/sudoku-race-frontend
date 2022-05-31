@@ -63,7 +63,7 @@ export default {
 
     function loadMore() {
       if (hasMoreData) {
-        skip += 5;
+        skip += 20;
         getData();
       }
     }
