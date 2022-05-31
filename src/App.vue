@@ -9,6 +9,7 @@
 import NavBar from '@/components/NavBar.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { Service } from './services';
 
 export default {
   components: {
@@ -18,6 +19,9 @@ export default {
     const store = useStore();
     // VUEX CHECKS JWT FROM LOCALSTORAGE ON PAGE RELOAD
     store.commit('setState');
+
+    // heroku wakeup
+    (async () => await Service.get(`/ranked?limit=1`))();
 
     return {
       isLoggedIn: computed(() => store.state.authenticated),
