@@ -32,7 +32,6 @@ export default {
 
 table {
   border-collapse: collapse;
-
   margin: 25px 0;
   min-width: 400px;
   text-align: center;

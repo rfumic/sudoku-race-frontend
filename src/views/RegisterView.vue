@@ -44,8 +44,8 @@
 
 <script>
 import { ref } from 'vue';
-import { Auth } from '@/services';
 import { useRouter } from 'vue-router';
+import { Auth } from '@/services';
 
 export default {
   setup() {
@@ -116,6 +116,7 @@ header {
   justify-content: center;
   margin-bottom: 3rem;
 }
+
 main {
   width: 100%;
 }
@@ -124,6 +125,7 @@ main {
   max-width: 90%;
   image-rendering: -moz-crisp-edges;
 }
+
 .error {
   background: $color-warning;
   padding: 0.5rem 1rem;
@@ -131,6 +133,7 @@ main {
   margin-bottom: 1rem;
   text-align: center;
 }
+
 .form {
   display: flex;
   flex-direction: column;
@@ -153,12 +156,10 @@ main {
   font-size: 1.25rem;
   transition: border-bottom-color 0.3s ease-in-out;
   caret-color: $color-primary;
-
   &:focus {
     outline: none;
     border-bottom-color: $color-primary;
   }
-
   &::placeholder {
     color: $color-white;
     opacity: 0.7;
@@ -175,7 +176,6 @@ main {
   padding: 0.75em 1.25rem;
   box-shadow: 3px 3px 0 0 $color-white;
   transition: box-shadow 0.2s ease-in-out;
-
   &:hover {
     box-shadow: 0 0 0 0 $color-white;
   }
@@ -187,7 +187,6 @@ main {
   font-size: 1.15rem;
   text-align: center;
   a {
-    // for 'click here!' routerlink
     text-decoration: none;
     color: $color-primary;
     &:hover {

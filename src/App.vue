@@ -7,9 +7,8 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { Users } from '@/services';
 
 export default {
   components: {
@@ -21,7 +20,6 @@ export default {
     store.commit('setState');
 
     return {
-      // change to getters
       isLoggedIn: computed(() => store.state.authenticated),
       username: computed(() => store.state.username),
     };

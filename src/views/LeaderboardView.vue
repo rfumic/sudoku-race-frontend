@@ -2,7 +2,6 @@
   <loading-component v-if="loading" />
   <div class="view" v-else>
     <h1>leaderboard</h1>
-
     <div class="container">
       <div class="sorting">
         <label>sort by: </label>
@@ -24,11 +23,11 @@
   </div>
 </template>
 <script>
-import { ref, computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { Service } from '@/services';
-import RankingTable from '@/components/RankingTable.vue';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import RankingTable from '@/components/RankingTable.vue';
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { Service } from '@/services';
 
 export default {
   components: {
@@ -38,12 +37,11 @@ export default {
   setup() {
     const router = useRouter();
 
-    let loading = ref(true);
-    let leaderboard = ref([]);
     let showLoadMore = ref(true);
-
-    let skip = 0;
+    let leaderboard = ref([]);
+    let loading = ref(true);
     let hasMoreData = false;
+    let skip = 0;
     let query = '';
 
     const sortingOptions = ref(['most points', 'most played']);
@@ -51,9 +49,7 @@ export default {
 
     async function getData() {
       const response = await Service.get(`/users?skip=${skip}&${query}`);
-      // leaderboard.value = response.data.users;
       response.data.users.forEach((user) => {
-        user.totalPoints = user.totalPoints || 0; // remove from final
         delete user._id;
         leaderboard.value.push(user);
       });
@@ -71,6 +67,7 @@ export default {
         getData();
       }
     }
+
     watch(selectedSort, async () => {
       leaderboard.value = [];
       skip = 0;

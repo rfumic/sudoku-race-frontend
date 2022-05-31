@@ -1,49 +1,39 @@
 <template>
   <div class="home">
-    <div
+    <router-link
+      to="/ranked-puzzles"
       class="container"
-      @click="goTo('/ranked-puzzles')"
       data-tooltip="complete puzzles to earn points"
     >
       <img src="../assets/ranked-game.png" alt="ranked game" class="logo" />
       ranked puzzles
-    </div>
-    <div
+    </router-link>
+    <router-link
+      to="/practice"
       class="container"
-      @click="goTo('/practice')"
       data-tooltip="play unranked to practice your skills"
     >
       <img src="../assets/solo-game.png" alt="solo game" class="logo" />
       solo practice
-    </div>
+    </router-link>
   </div>
 </template>
 
 <script>
-import router from '@/router';
-// @ is an alias to /srcimport HelloWorld from '@/components/HelloWorld.vue';
-
 export default {
   name: 'HomeView',
-  components: {},
-  setup() {
-    let show1 = false,
-      show2 = false;
-
-    function goTo(path) {
-      router.push(path);
-    }
-
-    return {
-      goTo,
-    };
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
-
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
 .home {
   color: $color-white;
   font-family: inherit;

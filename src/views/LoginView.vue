@@ -158,7 +158,6 @@ main {
   font-size: 1.15rem;
   text-align: center;
   a {
-    // for 'click here!' routerlink
     text-decoration: none;
     color: $color-primary;
     &:hover {

@@ -8,12 +8,12 @@
   <loading-component v-else />
 </template>
 <script>
-import { ref, computed } from 'vue';
-import { Service } from '@/services';
-import { useRouter, useRoute } from 'vue-router';
 import GameComponent from '@/components/GameComponent.vue';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import { ref, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { Service } from '@/services';
 
 export default {
   components: {
@@ -29,14 +29,13 @@ export default {
     const userEmail = computed(() => store.getters.getUserEmail);
 
     let board = ref([]);
-    let solution = [];
+    let solution = ref([]);
     let defaults = 0;
 
     async function load() {
       const response = await Service.get(`/ranked/${id.value}`);
-      // console.log(response.data.solution);
       board.value = response.data.puzzle;
-      solution = response.data.solution;
+      solution.value = response.data.solution;
       defaults = board.value.filter((e) => e != null).length;
     }
 
@@ -52,9 +51,6 @@ export default {
           `/users/results/${userEmail.value}`,
           userResult
         );
-        console.log('response.data', response.data);
-        console.log('storing user results', event);
-
         // commit response to vuex
         store.commit('setAuthenticated', response.data);
 

@@ -48,12 +48,12 @@
   </div>
 </template>
 <script>
+import LoadingComponent from '@/components/LoadingComponent.vue';
+import RankingTable from '@/components/RankingTable.vue';
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { Service } from '@/services';
-import RankingTable from '@/components/RankingTable.vue';
-import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   components: {
@@ -84,10 +84,8 @@ export default {
     }
 
     async function getData() {
-      let response;
-      response = await Service.get(`/ranked/${id.value}/info`);
+      const response = await Service.get(`/ranked/${id.value}/info`);
       puzzleData.value = response.data;
-      console.log(response.data);
 
       if (puzzleData.value.likes.includes(userEmail)) {
         userLiked.value = true;
@@ -101,7 +99,7 @@ export default {
     }
 
     async function likePuzzle() {
-      const response = await Service.post(`/ranked/${id.value}/likes`, {
+      await Service.post(`/ranked/${id.value}/likes`, {
         userEmail: userEmail,
       });
       userLiked.value = !userLiked.value;
@@ -111,8 +109,6 @@ export default {
       } else {
         puzzleData.value.likes.length -= 1;
       }
-
-      console.log(response.data.message);
     }
 
     function goToProfile(event) {
@@ -144,13 +140,13 @@ export default {
   font-size: 2rem;
   display: flex;
   justify-content: center;
-  // flex-flow: wrap;
   text-align: center;
   align-items: center;
   h1 {
     font-size: 3rem;
   }
 }
+
 .loading {
   color: $color-white;
   font-family: inherit;
@@ -171,6 +167,7 @@ export default {
     box-shadow: 0 0 0 0 $color-white;
   }
 }
+
 .container {
   border: 2px solid $color-white;
   display: flex;
@@ -182,7 +179,6 @@ export default {
   width: 100%;
   .info {
     width: 100%;
-
     p {
       padding: 2%;
       font-size: 1.5rem;
@@ -192,7 +188,6 @@ export default {
       font-size: 2.5rem;
     }
   }
-
   small {
     padding: 2%;
     font-size: 1rem;
@@ -201,8 +196,8 @@ export default {
     padding: 1rem;
   }
 }
+
 .like {
-  // width: 50%;
   cursor: pointer;
   font-family: inherit;
   color: $color-dark;
@@ -219,7 +214,6 @@ export default {
   &:hover {
     box-shadow: 0 0 0 0 $color-white;
   }
-
   svg {
     width: 1.5rem;
   }

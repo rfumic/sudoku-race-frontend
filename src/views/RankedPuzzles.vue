@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
-import { Service } from '@/services';
-import router from '@/router';
-import { useStore } from 'vuex';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import router from '@/router';
+import { Service } from '@/services';
 
 export default {
   name: 'RankedPuzzles',
@@ -61,7 +61,6 @@ export default {
     let loading = ref(true);
     let showLoadMore = ref(true);
     let skip = 0;
-    let limit = 1;
     let hasMoreData = false;
 
     const sortingOptions = ref(['newest', 'most completed', 'most liked']);
@@ -116,7 +115,6 @@ export default {
           break;
         }
       }
-
       await getData(query);
     });
 
@@ -162,6 +160,7 @@ export default {
     font-size: 3rem;
   }
 }
+
 .puzzle {
   display: flex;
   flex-direction: row;
@@ -184,6 +183,7 @@ export default {
   width: 5%;
   color: $color-primary;
 }
+
 .sorting {
   width: 50%;
   padding: 1%;
@@ -197,6 +197,7 @@ export default {
     text-align: center;
   }
 }
+
 .loadMore {
   padding: 1%;
   font-size: 1rem;

@@ -3,10 +3,9 @@
   <div class="loading" v-else>loading...</div>
 </template>
 <script>
-import { ref, computed } from 'vue';
-import { Service } from '@/services';
-import { useRouter, useRoute } from 'vue-router';
 import GameComponent from '@/components/GameComponent.vue';
+import { ref } from 'vue';
+import { Service } from '@/services';
 
 export default {
   props: ['api_route'],
@@ -14,16 +13,11 @@ export default {
     GameComponent,
   },
   setup(props) {
-    const router = useRouter();
-    const route = useRoute();
-    const id = ref(route.params.id);
-
     let board = ref([]);
     let solution = [];
 
     async function load() {
       const response = await Service.get(props.api_route);
-      // console.log(response.data.solution);
       board.value = response.data.puzzle;
       solution = response.data.solution;
     }
@@ -40,6 +34,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
 

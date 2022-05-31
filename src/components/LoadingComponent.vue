@@ -8,10 +8,6 @@
   </main>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
 @use '@/scss/colors.scss' as *;
 
@@ -26,7 +22,6 @@ section {
   align-items: flex-end;
   width: 150px;
   height: 150px;
-
   div {
     width: 25%;
     height: 25%;
@@ -34,7 +29,6 @@ section {
     border: 1px solid $color-dark;
     animation: bounce 0.5s cubic-bezier(0.19, 0.57, 0.3, 0.98) infinite
       alternate;
-
     &:nth-child(2) {
       animation-delay: 0.05s;
     }

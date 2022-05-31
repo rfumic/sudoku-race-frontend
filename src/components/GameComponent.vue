@@ -27,8 +27,8 @@
 <script>
 import SudokuBoard from '@/components/SudokuBoard.vue';
 import TimerComponent from '@/components/TimerComponent.vue';
-import { ref, computed } from 'vue';
 import NotificationModal from '@/components/NotificationModal.vue';
+import { ref, computed } from 'vue';
 
 export default {
   props: ['board', 'solution'],
@@ -52,10 +52,7 @@ export default {
     }
 
     function checkSolution(event) {
-      if (JSON.stringify(solution.value) !== JSON.stringify(event)) {
-        console.log('puzzle is not complete', event);
-      } else {
-        console.log('finished puzzle');
+      if (JSON.stringify(solution.value) === JSON.stringify(event)) {
         completed.value = !completed.value;
         showModal.value = !showModal.value;
       }
@@ -89,7 +86,6 @@ export default {
 }
 .view {
   display: flex;
-
   align-items: flex-start;
   flex-flow: wrap;
   width: 100%;
@@ -111,7 +107,6 @@ export default {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -135,7 +130,6 @@ export default {
       padding: 0.75em 1.25rem;
       box-shadow: 3px 3px 0 0 $color-white;
       transition: box-shadow 0.2s ease-in-out;
-
       &:hover {
         box-shadow: 0 0 0 0 $color-white;
       }

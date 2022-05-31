@@ -15,19 +15,18 @@
 </template>
 
 <script>
-import { ref, computed, watch, reactive, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 export default {
   props: ['value', 'index', 'currentIndex', 'currentValue'],
   setup(props) {
     let hasDefaultValue = props.value.default;
-
     let defaultValue = ref(props.value.digit);
 
     const isSelected = computed(() => {
       return props.index == props.currentIndex;
     });
     const highLight = computed(() => {
-      // used for highlighting all cells that contain the same value
+      // highlighting all cells that contain the same value
       return props.currentValue == ''
         ? false
         : props.currentValue == props.value.digit;
@@ -55,9 +54,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: $color-white;
-
   color: $color-blue;
-
   &:hover {
     background: lightslategray;
     cursor: pointer;

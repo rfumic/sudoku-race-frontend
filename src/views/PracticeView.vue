@@ -8,11 +8,11 @@
   <loading-component v-else />
 </template>
 <script>
-import { ref } from 'vue';
-import { Service } from '@/services';
-import GameComponent from '@/components/GameComponent.vue';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import GameComponent from '@/components/GameComponent.vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { Service } from '@/services';
 
 export default {
   components: {
@@ -23,13 +23,12 @@ export default {
     const router = useRouter();
 
     let board = ref([]);
-    let solution = [];
+    let solution = ref([]);
 
     async function load() {
       const response = await Service.get('/random');
-      // console.log(response.data.solution);
       board.value = response.data.puzzle;
-      solution = response.data.solution;
+      solution.value = response.data.solution;
     }
 
     /*     // debugging

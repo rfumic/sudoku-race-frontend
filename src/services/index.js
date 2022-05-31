@@ -1,8 +1,6 @@
 import store from '@/store';
 import axios from 'axios';
-// import { useRouter } from 'vue-router';
 import $router from '@/router';
-// const router = useRouter();
 
 const Service = axios.create({
   baseURL: 'https://gentle-mountain-95216.herokuapp.com/',
@@ -37,7 +35,7 @@ const Users = {
 const Auth = {
   async register(email, username, password) {
     try {
-      const response = await Service.post('/users', {
+      await Service.post('/users', {
         email,
         username,
         password,
@@ -58,7 +56,6 @@ const Auth = {
         throw new Error();
       } else {
         const user = response.data;
-
         localStorage.setItem('user', JSON.stringify(user));
         store.commit('setAuthenticated', {
           authenticated: true,

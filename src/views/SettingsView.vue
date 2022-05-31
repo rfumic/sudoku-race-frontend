@@ -106,10 +106,10 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { Service, Auth } from '@/services';
 import { useRouter } from 'vue-router';
+import { Service, Auth } from '@/services';
 
 export default {
   setup() {
@@ -208,11 +208,10 @@ export default {
       buttonFunction.value = async () => {
         if (formInfo.value.input1 != formInfo.value.input2) {
           try {
-            const response = await sendRequest({
+            await sendRequest({
               new_password: formInfo.value.input1,
               old_password: formInfo.value.input2,
             });
-            console.log(response);
             router.replace('/');
           } catch (err) {
             console.error(err);
@@ -258,6 +257,7 @@ export default {
     font-size: 3rem;
   }
 }
+
 img {
   max-width: 25%;
   height: auto;
@@ -286,13 +286,11 @@ img {
 .info {
   display: flex;
   flex-direction: column;
-
   width: 90%;
   div {
     display: flex;
     justify-content: space-between;
   }
-
   p {
     font-size: 1rem;
     color: $color-primary;
@@ -309,6 +307,7 @@ img {
     align-items: center;
   }
 }
+
 .password {
   flex-direction: column;
   div {
@@ -331,12 +330,10 @@ input {
   font-size: 1.25rem;
   transition: border-bottom-color 0.3s ease-in-out;
   caret-color: $color-dark;
-
   &:focus {
     outline: none;
     border-bottom-color: $color-primary;
   }
-
   &::placeholder {
     color: $color-dark;
     opacity: 0.7;
@@ -364,7 +361,6 @@ form {
     padding: 0.5em 1rem;
     box-shadow: 3px 3px 0 0 $color-white;
     transition: box-shadow 0.2s ease-in-out;
-
     &:hover {
       box-shadow: 0 0 0 0 $color-white;
     }

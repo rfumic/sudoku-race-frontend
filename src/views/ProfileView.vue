@@ -32,10 +32,10 @@
 </template>
 
 <script>
+import LoadingComponent from '@/components/LoadingComponent.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Service } from '@/services';
-import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   components: {
@@ -44,7 +44,6 @@ export default {
   setup() {
     const route = useRoute();
     const username = ref(route.params.username);
-    console.log(username.value);
     let userData = ref(false);
     let error = ref(false);
 

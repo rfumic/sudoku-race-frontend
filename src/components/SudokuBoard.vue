@@ -10,8 +10,6 @@
       :currentValue="currentValue"
       @click="setCurrent(index)"
     />
-    <!--     <h3>{{ playerBoard }}</h3> -->
-    <!--   <h3>{{ currentValue }}</h3> -->
   </div>
 </template>
 <script>
@@ -27,7 +25,6 @@ export default {
       let digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
       // HANDLING KEYBOARD EVENTS
       window.addEventListener('keyup', (e) => {
-        console.log(e.key);
         e.preventDefault();
         // ADD NOTES
         if (digits.includes(e.key) && e.ctrlKey) {
@@ -54,10 +51,6 @@ export default {
           currentIndex.value > 71
             ? (currentIndex.value -= 72)
             : (currentIndex.value += 9);
-          console.log(
-            playerBoard.value[currentIndex.value].digit,
-            'from arrwo'
-          );
         } else if (e.key == 'ArrowUp') {
           currentIndex.value < 9
             ? (currentIndex.value += 72)
@@ -73,7 +66,6 @@ export default {
         }
       });
     });
-    // const board = Array(81).fill('');
     const board = props.board.map((e) =>
       e == null
         ? { digit: '', default: false, cellNotes: [] }
@@ -91,7 +83,6 @@ export default {
 
     function setCurrent(i) {
       currentIndex.value = i;
-      // console.log(currentIndex.value);
     }
 
     function setCellValue(value, notes = false) {

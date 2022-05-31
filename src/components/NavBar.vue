@@ -24,7 +24,7 @@
   </nav>
 </template>
 <script>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { Auth } from '@/services';
 import { useRouter } from 'vue-router';
 
@@ -32,8 +32,8 @@ export default {
   props: ['username'],
   setup(props) {
     const router = useRouter();
-    let hamburger = ref(false);
     const openMenu = () => (hamburger.value = !hamburger.value);
+    let hamburger = ref(false);
 
     function logout() {
       Auth.logout();

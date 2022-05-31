@@ -8,6 +8,9 @@ import { ref, computed, watchEffect } from 'vue';
 export default {
   props: ['stopTimer'],
   setup(props, { emit }) {
+    let timer = ref(undefined);
+    let elapsedTime = ref(0);
+
     let formattedTimer = computed(() => {
       const date = new Date(null);
       date.setSeconds(elapsedTime.value / 1000);
@@ -15,15 +18,12 @@ export default {
       return utc.substr(utc.indexOf(':') - 2, 8);
     });
 
-    let timer = ref(undefined);
-    let elapsedTime = ref(0);
     function startTimer() {
       timer.value = setInterval(() => {
         elapsedTime.value += 1000;
       }, 1000);
     }
     watchEffect(() => {
-      console.log(props.stopTimer);
       if (!props.stopTimer) {
         startTimer();
       } else {
@@ -32,12 +32,9 @@ export default {
     });
 
     function stop() {
-      console.log('timer stopped');
       emit('time', formattedTimer);
       clearInterval(timer.value);
     }
-
-    //startTimer();
 
     return {
       formattedTimer,

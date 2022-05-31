@@ -8,11 +8,11 @@ Online sudoku
 
 ### Backend repozitorij
 
-Github: https://www.github.com/rfumic/sudoku-race-backend
+[Github](https://www.github.com/rfumic/sudoku-race-backend)
 
 ### Javni link na aplikaciju
 
-Web: ...
+[sudoku-race](https://sudoku-race.surge.sh)
 
 ### Organizacija
 
