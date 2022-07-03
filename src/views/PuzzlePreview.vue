@@ -41,7 +41,7 @@
       <h2>ranking</h2>
       <ranking-table
         :headers="['username', 'time', 'points']"
-        :rows="puzzleData.playerResults"
+        :rows="playerRanking"
         @clicked="goToProfile"
       />
     </div>
@@ -72,6 +72,7 @@ export default {
     let userTime = ref(null);
     let userLiked = ref(false);
 
+    let playerRanking = ref([]);
     const completedPuzzles = computed(() => store.getters.getCompletedPuzzles);
     const hasCompletedPuzzle = ref(
       completedPuzzles.value.filter((x) => x.id == id.value) != false
@@ -86,7 +87,9 @@ export default {
     async function getData() {
       const response = await Service.get(`/ranked/${id.value}/info`);
       puzzleData.value = response.data;
-
+      playerRanking.value = puzzleData.value.playerResults.sort(
+        (a, b) => b.points - a.points
+      );
       if (puzzleData.value.likes.includes(userEmail)) {
         userLiked.value = true;
       }
@@ -127,6 +130,7 @@ export default {
       likePuzzle,
       userLiked,
       goToProfile,
+      playerRanking,
     };
   },
 };
